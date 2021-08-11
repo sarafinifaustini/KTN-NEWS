@@ -9,11 +9,14 @@ import 'package:ktn_news/Screens/categories/liveStream/KTN_Business.dart';
 import 'package:ktn_news/Screens/categories/liveStream/KTN_Sports.dart';
 import 'package:ktn_news/Screens/categories/liveStream/KTN_morning.dart';
 import 'package:ktn_news/Screens/categories/liveStream/ktn_leo.dart';
+import 'package:ktn_news/Video/WebView.dart';
 import 'package:ktn_news/model/Category1.dart';
 import 'package:http/http.dart' as http;
 import 'package:ktn_news/Fonts/fonts.dart';
+import 'package:ktn_news/model/video.dart';
 
 import '../../../constants.dart';
+import '../../LifeCycleManager.dart';
 
 class LiveStreamPage extends StatefulWidget {
   static String? playingVideo;
@@ -63,53 +66,8 @@ List mainVideos =[];
           padding: const EdgeInsets.all(0.0),
           child: Column(
             children: [
-              Container(
-           height: size.height*0.4,
-                child: ListView.builder(
-                    itemCount: 1,
-                    itemBuilder: (context,index)=>GestureDetector(
-                      onTap: (){},
-                      child: Column(
-                        children: [
-                          Container(
-                            height: size.height *0.35,
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    colors: [
-                                      Colors.grey.shade800,
-                                      Colors.black.withOpacity(0.0),
-                                    ],
-                                    end: Alignment.topCenter,
-                                    begin: Alignment.bottomCenter)),
-                            child:Image.network(LiveStreamPage.liveThumb!,
-                              fit: BoxFit.fitWidth,
-                              width: size.width,
-                              height: size.height,
-                              filterQuality: FilterQuality.high,
-                            ),
-                          ),
-
-
-                          Container(
-                            color: Colors.grey.shade800,
-                            child:Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left:0),
-                                    child: Text("Now Playing",style: CustomTextStyle.display3(context),),
-                                  ),
-                                  Text(LiveStreamPage.playingVideo!,style: CustomTextStyle.display4(context),),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ))
+              LifeCycleManager(
+                child:WebViewContainer("https://www.youtube.com/embed/live_stream?channel=UCKVsdeoHExltrWMuK0hOWmg&rel=0&autoplay=1")
               ),
               Expanded(
                 child: Container(

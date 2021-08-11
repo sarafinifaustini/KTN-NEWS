@@ -39,8 +39,8 @@ class _KTNBusinessSectionState extends State<KTNBusinessSection> {
           }
           if (snapshot.hasData) {
             List<Videos>? data = snapshot.data;
-            print("-----------------------------------");
-            print(data![0].title);
+            // print("-----------------------------------");
+            // print(data![0].title);
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -59,7 +59,7 @@ class _KTNBusinessSectionState extends State<KTNBusinessSection> {
                   height: size.height*0.28,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: data.length,
+                    itemCount: data!.length,
                     itemBuilder:(context, index) => GestureDetector(
                       onTap: () {
                         print("tapped");

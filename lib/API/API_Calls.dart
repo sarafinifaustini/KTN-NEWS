@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:ktn_news/model/Category1.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:ktn_news/model/video.dart';
 
 import 'APIs.dart';
 
@@ -29,7 +30,22 @@ class APICalls {
       throw e;
     }
   }
+  static Future<Video> getVideo(int video_id) async {
+    String videoURL = "https://www.standardmedia.co.ke/farmkenya/api/ktn-home/video/$video_id";
+    try {
+      var result = await http.get(Uri.parse(videoURL));
+      if (result.statusCode == 200) {
+        Map<String,dynamic> data = jsonDecode(result.body)['videos'];
+         Video video = Video.fromJson(data);
 
+        return video;
+      } else {
+        throw Exception('Could not connect.');
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
   static Future<List<Videos>> getSports() async {
     try {
       final response = await http.get(Uri.parse(news),
