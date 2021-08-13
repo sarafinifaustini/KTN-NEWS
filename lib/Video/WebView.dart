@@ -20,24 +20,23 @@ class _WebViewContainerState extends State<WebViewContainer>
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        children: [
-          isScreenVisible
-                ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                AspectRatio(
-                  aspectRatio:1,
-                  child: WebView(
-                    key: _key,
-                    javascriptMode: JavascriptMode.unrestricted,
-                    initialUrl: widget.url,
-                    onWebViewCreated: (controller) => _controller = controller,
-                  ),
-                ),
+      child: isScreenVisible
+            ? Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            AspectRatio(
+              aspectRatio:1,
+              child: WebView(
+                key: _key,
+                javascriptMode: JavascriptMode.unrestricted,
+                initialUrl: widget.url,
+                onWebViewCreated: (controller) => _controller = controller,
+              ),
+            ),
     ])
-            : Container(),
-    ]));
+        : Container(
+
+      ));
   }
 
     @override

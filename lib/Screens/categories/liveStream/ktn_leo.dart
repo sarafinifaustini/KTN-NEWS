@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:ktn_news/API/API_Calls.dart';
 import 'package:ktn_news/API/APIs.dart';
+import 'file:///C:/Users/jsarafini/AndroidStudioProjects/ktn_news/lib/Screens/categories/News/News.dart';
 import 'package:ktn_news/model/Category1.dart';
 import 'package:http/http.dart' as http;
 import 'package:ktn_news/Fonts/fonts.dart';
 
 import '../../../constants.dart';
+import '../../LandingPage.dart';
 
 class KTNLeoPage extends StatefulWidget {
   @override
@@ -43,16 +45,7 @@ class _KTNLeoPageState extends State<KTNLeoPage> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: Text(
-                    "KTN Leo",style: CustomTextStyle.display1(context),
 
-                  ),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
                   height: size.height*0.28,
@@ -61,20 +54,19 @@ class _KTNLeoPageState extends State<KTNLeoPage> {
                     itemCount: data!.length,
                     itemBuilder:(context, index) => GestureDetector(
                       onTap: () {
-                        print("tapped");
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (_) => VideoDetailPage(
-                        //             videoUrl:
-                        //             "assets/videos/video_1.mp4")));
+                        print("tapped ktn");
+                        NewsPage.playingVideo=null;
+                        NewsPage.playingVideo =data[index].id;
+                        LandingPage.landingPageIndex =1;
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) {
+                                  return LandingPage();
+                                }));
                       },
                       child: Padding(
                         padding: EdgeInsets.only(left: 10),
-                        child: Row(
-                          children: List.generate(data.length, (index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
                               child: Container(
                                 // height: size.height*0.16,
                                 width: size.width*0.7,
@@ -107,9 +99,6 @@ class _KTNLeoPageState extends State<KTNLeoPage> {
                                   ],
                                 ),
                               ),
-                            );
-                          }),
-                        ),
                       ),
                     ),
                   ),
@@ -117,9 +106,9 @@ class _KTNLeoPageState extends State<KTNLeoPage> {
               ],
             );
           }
-          return Center(
-            child: CircularProgressIndicator(),
-          );
+          return Center();
+            // child: CircularProgressIndicator(),
+          // );
         });
   }
 

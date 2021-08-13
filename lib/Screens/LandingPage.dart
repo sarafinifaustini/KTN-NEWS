@@ -5,19 +5,20 @@ import 'file:///C:/Users/jsarafini/AndroidStudioProjects/ktn_news/lib/Screens/ca
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ktn_news/constants.dart';
 import 'categories/Features.dart';
-import 'categories/News.dart';
+import 'categories/News/News.dart';
 import 'categories/Sports.dart';
 
 class LandingPage extends StatefulWidget {
+  static int landingPageIndex =0;
 
   @override
   _LandingPageState createState() => _LandingPageState();
 }
 
 class _LandingPageState extends State<LandingPage> {
-  PageController pageController = PageController(initialPage: 0);
+  PageController pageController = PageController(initialPage: LandingPage.landingPageIndex);
 
-  int _currentIndex =0;
+  int _currentIndex =LandingPage.landingPageIndex;
   final bottomNavigationItems = [
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.home), label: "Live",),
     BottomNavigationBarItem(
@@ -51,6 +52,7 @@ class _LandingPageState extends State<LandingPage> {
       ),
 
       body:PageView(
+        physics:new NeverScrollableScrollPhysics(),
         controller: pageController,
         onPageChanged: (newIndex) {
           setState(() {
@@ -86,7 +88,7 @@ class _LandingPageState extends State<LandingPage> {
           // backgroundColor: Theme.of(context).canvasColor,
           onTap: (newIndex) {
             pageController.animateToPage(newIndex,
-                duration: Duration(milliseconds: 500),
+                duration: Duration(milliseconds: 1),
                 curve: Curves.easeInOut);
           },
         ),

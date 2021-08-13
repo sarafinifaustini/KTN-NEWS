@@ -31,13 +31,14 @@ class APICalls {
     }
   }
   static Future<Video> getVideo(int video_id) async {
+    print("inside the video");
     String videoURL = "https://www.standardmedia.co.ke/farmkenya/api/ktn-home/video/$video_id";
     try {
       var result = await http.get(Uri.parse(videoURL));
       if (result.statusCode == 200) {
-        Map<String,dynamic> data = jsonDecode(result.body)['videos'];
+        Map<String,dynamic> data = jsonDecode(result.body)['video'];
          Video video = Video.fromJson(data);
-
+         print("getting video");
         return video;
       } else {
         throw Exception('Could not connect.');
@@ -136,6 +137,49 @@ class APICalls {
  static Future<List<Videos>> getKtnMorningExpress() async {
     try {
       final response = await http.get(Uri.parse(morningExpress),
+          headers: <String, String>{
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+          });
+      if (response.statusCode == 200) {
+        List jsonResponse = json.decode(response.body)['videos'];
+        // print(jsonResponse);
+        // print("ndani ya mbiu ya KTN");
+        return jsonResponse
+            .map((data) => new Videos.fromJson(data))
+            .toList();
+      } else {
+        throw Exception('Unexpected error occurred !');
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<List<Videos>> getMostViewed() async {
+    try {
+      final response = await http.get(Uri.parse(mostViewed),
+          headers: <String, String>{
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+          });
+      if (response.statusCode == 200) {
+        List jsonResponse = json.decode(response.body)['videos'];
+        // print(jsonResponse);
+        // print("ndani ya mbiu ya KTN");
+        return jsonResponse
+            .map((data) => new Videos.fromJson(data))
+            .toList();
+      } else {
+        throw Exception('Unexpected error occurred !');
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+    static Future<List<Videos>> getWorldNews() async {
+    try {
+      final response = await http.get(Uri.parse(worldNews),
           headers: <String, String>{
             "Accept": "application/json",
             "Content-Type": "application/json"
