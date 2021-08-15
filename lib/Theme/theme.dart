@@ -92,7 +92,7 @@ class MyThemes {
     bottomSheetTheme: BottomSheetThemeData(modalBackgroundColor: Colors.black),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     backgroundColor: kPrimaryColor,
-    scaffoldBackgroundColor: themeWhite,
+    scaffoldBackgroundColor: Colors.white,
     primaryColor: themeWhite,
     primaryColorDark: kPrimaryColor,
     primaryColorLight:kPrimaryColor,

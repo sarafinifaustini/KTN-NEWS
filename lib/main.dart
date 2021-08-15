@@ -1,11 +1,38 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+
 import 'package:ktn_news/Screens/LandingPage.dart';
 import 'package:ktn_news/Screens/LifeCycleManager.dart';
 import 'package:provider/provider.dart';
 import 'Theme/theme.dart';
 import 'Video/MainVideo.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if (Platform.isAndroid) {
+    await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
+
+    var swAvailable = await AndroidWebViewFeature.isFeatureSupported(
+        AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE);
+    var swInterceptAvailable = await AndroidWebViewFeature.isFeatureSupported(
+        AndroidWebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
+
+    if (swAvailable && swInterceptAvailable) {
+      AndroidServiceWorkerController serviceWorkerController =
+      AndroidServiceWorkerController.instance();
+
+      serviceWorkerController.serviceWorkerClient = AndroidServiceWorkerClient(
+        shouldInterceptRequest: (request) async {
+          print(request);
+          return null;
+        },
+      );
+    }
+  }
   runApp(MyApp());
 }
 

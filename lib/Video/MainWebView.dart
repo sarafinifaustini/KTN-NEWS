@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ktn_news/Screens/LandingPage.dart';
 import 'package:ktn_news/Screens/categories/News/News.dart';
@@ -8,17 +9,18 @@ import 'package:ktn_news/Screens/categories/liveStream/LiveStream.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/services.dart';
 
-class WebViewContainer extends StatefulWidget {
+class MainWebViewContainer extends StatefulWidget {
   final String url;
-static  WebViewController? controller;
-  WebViewContainer(this.url);
+  static  WebViewController? controller;
+  MainWebViewContainer(this.url);
 
   @override
-  createState() => _WebViewContainerState();
+  createState() => _MainWebViewContainerState();
 }
 
-class _WebViewContainerState extends State<WebViewContainer>
+class _MainWebViewContainerState extends State<MainWebViewContainer>
     with WidgetsBindingObserver {
   final controller = ScrollController();
 
@@ -49,43 +51,48 @@ class _WebViewContainerState extends State<WebViewContainer>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+    Size size = MediaQuery.of(context).size;
     print("inside web view");
     print(widget.url);
-   screenHeight = MediaQuery.of(context).size.height;
+    screenHeight = MediaQuery.of(context).size.height;
     return isScreenVisible
-        ? AspectRatio(
-          aspectRatio: 1,
-          child: Theme(
-            data: new ThemeData(textTheme: TextTheme(
-              bodyText1: GoogleFonts.inter(
-                color: Colors.grey.shade900,
-                fontSize: 5,
-            ),
-            ),
-            ),
-            child: WebView(
-              key: _key,
-              javascriptMode: JavascriptMode
-                  .unrestricted,
-              initialUrl:widget.url,
-              onWebViewCreated: (controller) {
-              WebViewContainer.controller = controller;
-              },
-            ),
+        ? Container(
+      height: size.height*0.8,
+width: double.infinity,
+          child: Stack(
+fit: StackFit.expand,
+            children: [
+              AspectRatio(
+      aspectRatio: 1,
+      child: WebView(
+        key: _key,
+        javascriptMode: JavascriptMode
+            .unrestricted,
+        initialUrl:widget.url,
+        onWebViewCreated: (controller) {
+          MainWebViewContainer.controller = controller;
+        },
+      ),
+    ),
+            ],
           ),
         )
-      : Container(
-        color: Colors.transparent,
+        : Container(
+      color: Colors.transparent,
     );
   }
 
-    @override
-    void initState() {
+  @override
+  void initState() {
     super.initState();
     controller.addListener((onScroll));
     WidgetsBinding.instance!.addObserver(this);
 
-    }
+  }
   onScroll() {
     if (controller.position.atEdge) {
       if (controller.position.pixels == 0) {
@@ -107,7 +114,7 @@ class _WebViewContainerState extends State<WebViewContainer>
     if(isScreenVisible = false) {
       WidgetsBinding.instance!.removeObserver(this);
     }
-      super.dispose();
+    super.dispose();
 
   }
 
@@ -115,11 +122,11 @@ class _WebViewContainerState extends State<WebViewContainer>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       if(this.mounted){
-      setState(() {
-        isScreenVisible = true;
-      });
+        setState(() {
+          isScreenVisible = true;
+        });
       }
-      WebViewContainer.controller?.reload();
+      MainWebViewContainer.controller?.reload();
     } else {
       setState(() {
         isScreenVisible = false;

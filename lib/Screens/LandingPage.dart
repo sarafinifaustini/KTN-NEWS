@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ktn_news/Screens/categories/Business.dart';
 import 'file:///C:/Users/jsarafini/AndroidStudioProjects/ktn_news/lib/Screens/categories/liveStream/LiveStream.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ktn_news/Screens/categories/ViewAll/allMoreVideos.dart';
 import 'package:ktn_news/constants.dart';
 import 'categories/Features.dart';
 import 'categories/News/News.dart';
@@ -10,6 +11,7 @@ import 'categories/Sports.dart';
 
 class LandingPage extends StatefulWidget {
   static int landingPageIndex =0;
+
 
   @override
   _LandingPageState createState() => _LandingPageState();
@@ -64,7 +66,7 @@ class _LandingPageState extends State<LandingPage> {
           NewsPage(),
           FeaturesPage(),
           SportsPage(),
-          BusinessPage()
+          BusinessPage(),
         ],
       ),
       bottomNavigationBar:new Theme(

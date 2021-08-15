@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:ktn_news/API/API_Calls.dart';
 import 'package:ktn_news/API/APIs.dart';
+
+import 'package:ktn_news/Video/WebView.dart';
 import 'file:///C:/Users/jsarafini/AndroidStudioProjects/ktn_news/lib/Screens/categories/News/News.dart';
 import 'package:ktn_news/model/Category1.dart';
 import 'package:http/http.dart' as http;
@@ -13,21 +15,27 @@ import 'package:ktn_news/Fonts/fonts.dart';
 import '../../../constants.dart';
 import '../../LandingPage.dart';
 
-class WorldNewsPage extends StatefulWidget {
+class MoreVideosPage extends StatefulWidget {
   @override
-  _WorldNewsPageState createState() => _WorldNewsPageState();
+  _MoreVideosPageState createState() => _MoreVideosPageState();
 }
 
 
-class _WorldNewsPageState extends State<WorldNewsPage> {
+class _MoreVideosPageState extends State<MoreVideosPage> {
 
   void initState() {
     super.initState();
     APICalls.refreshLiveStream(context);
   }
 
+  refreshAction() {
+    setState(() {
+      APICalls.getVideo(NewsPage.playingVideo!);
+print("here");
 
-
+      // _response = http.read(dadJokeApi, headers: httpHeaders);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -49,7 +57,7 @@ class _WorldNewsPageState extends State<WorldNewsPage> {
                 Container(
                   margin: EdgeInsets.symmetric(
                       vertical: kDefaultPadding / 2),
-                  height: size.height * 0.28,
+                   height: size.height * 0.3,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: data!.length,
@@ -58,25 +66,16 @@ class _WorldNewsPageState extends State<WorldNewsPage> {
                           onTap: () {
                             print("tapped");
                             setState(() {
-                              print(NewsPage.liveThumb);
-                              NewsPage.liveThumb =
-                                  data[index].thumbnail;
-                              print(NewsPage.liveThumb);
+                              print(NewsPage.playingTitle);
+                              NewsPage.playingTitle ="";
                               NewsPage.playingTitle =
                                   data[index].title;
-
-                              print("on tap video");
-                              print(NewsPage.playingVideo);
-                              print("new load");
-
+                              NewsPage.playingVideo = null;
                               NewsPage.playingVideo= data[index].id;
-                              print(NewsPage.playingVideo);
+                              refreshAction();
 
                             });
-                            LandingPage.landingPageIndex =1;
-                            setState(() {
-                              NewsPage.playingVideo= data[index].id;
-                            });
+
 
                             // Navigator.push(
                             //     context,
@@ -85,47 +84,50 @@ class _WorldNewsPageState extends State<WorldNewsPage> {
                             //           return LandingPage();
                             //         }));
                           },
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Container(
-                              // height: size.height*0.16,
-                              width: size.width * 0.7,
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width: size.width,
-                                    margin: EdgeInsets.only(
-                                        right: 8),
-                                    // width: 160,
-                                    height: 160,
-                                    child: Image.network(
-                                      data[index].thumbnail!,
-                                      fit: BoxFit.contain,
+                          child: Card(
+
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                // height: size.height*0.16,
+                                width: size.width * 0.7,
+                                child: Column(
+                                  children: [
+                                    Container(
                                       width: size.width,
-                                      height: size.height,
-                                      filterQuality:
-                                      FilterQuality.high,
+                                      margin: EdgeInsets.only(
+                                          right: 8),
+                                      // width: 160,
+                                       height: 160,
+                                      child: Image.network(
+                                        data[index].thumbnail!,
+                                        fit: BoxFit.contain,
+                                        width: size.width,
+                                        height: size.height,
+                                        filterQuality:
+                                        FilterQuality.high,
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                    const EdgeInsets.all(
-                                        8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment
-                                          .stretch,
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          data[index].title!,
-                                          // style: CustomTextStyle.display1(context),
-                                        ),
-                                      ],
+                                    Padding(
+                                      padding:
+                                      const EdgeInsets.all(
+                                          8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment
+                                            .stretch,
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            data[index].title!,
+                                            // style: CustomTextStyle.display1(context),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -141,47 +143,4 @@ class _WorldNewsPageState extends State<WorldNewsPage> {
         });
   }
 
-  Widget latestStories() {
-    Size size = MediaQuery.of(context).size;
-    Videos videos;
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: GestureDetector(
-        onTap: () {
-          print("tapped");
-          // Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (_) => VideoDetailPage(
-          //             videoUrl:
-          //             "assets/videos/video_1.mp4")));
-        },
-        child: Padding(
-          padding: EdgeInsets.only(left: 10),
-          child: Row(
-            children: List.generate(10, (index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(right: 8),
-                      width: 160,
-                      height: 160,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          image: DecorationImage(
-                              image: AssetImage("assets/images/logo.png"),
-                              fit: BoxFit.cover)),
-                    ),
-                    Text("videos[0].title"),
-                  ],
-                ),
-              );
-            }),
-          ),
-        ),
-      ),
-    );
-  }
 }

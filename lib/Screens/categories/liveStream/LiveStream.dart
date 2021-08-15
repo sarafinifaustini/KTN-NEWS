@@ -21,6 +21,7 @@ import '../../LifeCycleManager.dart';
 class LiveStreamPage extends StatefulWidget {
   static String? playingVideo;
   static String? liveThumb;
+
   @override
   _LiveStreamPageState createState() => _LiveStreamPageState();
 }

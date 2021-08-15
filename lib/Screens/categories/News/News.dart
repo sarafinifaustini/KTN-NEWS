@@ -1,17 +1,19 @@
 import 'dart:convert';
-import 'package:ktn_news/Screens/LandingPage.dart';
+import 'package:flutter/widgets.dart';
+import 'package:ktn_news/Screens/categories/ViewAll/allMoreVideos.dart';
 import 'package:ktn_news/Screens/categories/liveStream/MostViewed.dart';
+import 'package:ktn_news/Screens/categories/liveStream/moreVideos.dart';
 import 'package:ktn_news/Screens/categories/liveStream/worldNews.dart';
+import 'package:ktn_news/Video/MainVideo.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
+import 'package:flutter/services.dart';
 import 'package:ktn_news/API/APIs.dart';
 import 'package:ktn_news/Screens/LifeCycleManager.dart';
 import 'package:ktn_news/Screens/categories/liveStream/KTN_Business.dart';
-import 'package:ktn_news/Screens/categories/liveStream/KTN_Sports.dart';
-import 'package:ktn_news/Screens/categories/liveStream/KTN_morning.dart';
 import 'package:ktn_news/Screens/categories/liveStream/ktn_leo.dart';
 import 'package:ktn_news/Video/WebView.dart';
 import 'package:ktn_news/model/Category1.dart';
@@ -20,33 +22,32 @@ import 'package:ktn_news/Fonts/fonts.dart';
 import 'package:ktn_news/model/video.dart';
 
 import '../../../API/API_Calls.dart';
-import '../../../API/API_Calls.dart';
-import '../../../API/API_Calls.dart';
-import '../../../constants.dart';
 
 class NewsPage extends StatefulWidget {
   static int? playingVideo;
   static String? liveThumb;
   static String? playingTitle;
-
+  static var screenHeight;
+  static var cHeight ;
   @override
   _NewsPageState createState() => _NewsPageState();
 }
 
-class _NewsPageState extends State<NewsPage> with WidgetsBindingObserver {
-  final controller = ScrollController();
-  double cWidth = 0.0;
-  double itemHeight = 28.0;
-  double? screenWidth;
-  var screenHeight;
-  double screenShrink = 4.0;
-  var cHeight;
+class _NewsPageState extends State<NewsPage>  with AutomaticKeepAliveClientMixin {
+   final controller = ScrollController();
+
   Video? video;
   WebViewController? _controller;
   final _key = UniqueKey();
   bool isScreenVisible = true;
   List mainVideos = [];
-
+  var theTop;
+  var theBottom;
+  var theLeft;
+  var theRight;
+  var theLeft2;
+  var theBottom2;
+var theTop2;
   Future<List<Videos>> getVideos() async {
     try {
       final response = await http.get(Uri.parse(news),
@@ -59,11 +60,11 @@ class _NewsPageState extends State<NewsPage> with WidgetsBindingObserver {
         mainVideos = jsonResponse;
         NewsPage.liveThumb = mainVideos[0]['thumbnail'];
         NewsPage.playingTitle = mainVideos[0]['title'];
-        NewsPage.playingVideo = mainVideos[0]['id'];
+         NewsPage.playingVideo = mainVideos[0]['id'];
         print(NewsPage.playingVideo);
         print("hapo juu");
         print(NewsPage.liveThumb);
-        // print(jsonResponse);
+         print(jsonResponse);
         return jsonResponse.map((data) => new Videos.fromJson(data)).toList();
       } else {
         throw Exception('Unexpected error occurred !');
@@ -73,18 +74,14 @@ class _NewsPageState extends State<NewsPage> with WidgetsBindingObserver {
     }
   }
 
-  static Future refreshVideo(context) async {
-    // print("in refresh");
-    return APICalls.getVideo(NewsPage.playingVideo!);
-  }
-
   void initState() {
     super.initState();
-    controller.addListener((onScroll));
-    APICalls.refreshLiveStream(context);
-    refreshVideo(context);
-    WidgetsBinding.instance!.addObserver(this);
     getVideos();
+     controller.addListener((onScroll));
+    APICalls.refreshLiveStream(context);
+
+  print(NewsPage.playingVideo);
+
   }
 
   onScroll() {
@@ -92,37 +89,40 @@ class _NewsPageState extends State<NewsPage> with WidgetsBindingObserver {
       if (controller.position.pixels == 0) {
         //if at the top
         print("at the top");
-        setState(() {
-          cHeight = screenHeight * 0.4;
-        });
+        if(this.mounted) {
+          setState(() {
+            NewsPage.cHeight = NewsPage.screenHeight * 0.35;
+          });
+        }
       }
       //else if at bottom
     } else {
       print("not at top");
+      if(this.mounted){
       setState(() {
-        cHeight = screenHeight * 0.2;
+        NewsPage.cHeight = NewsPage.screenHeight * 0.2;
       });
-    }
+    }}
   }
 
 
   @override
   void dispose() {
     super.dispose();
-    controller.removeListener(onScroll);
-    WidgetsBinding.instance!.removeObserver(this);
+     controller.removeListener(onScroll);
+
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       setState(() {
-        print("--------------------------------------");
-        print(NewsPage.playingVideo!);
-       APICalls.getVideo(NewsPage.playingVideo!);
+        // print("--------------------------------------");
+        // print(NewsPage.playingVideo!);
+       // APICalls.getVideo(NewsPage.playingVideo!);
         isScreenVisible = true;
       });
-      refreshVideo(context);
+
       _controller?.reload();
     } else {
       setState(() {
@@ -133,9 +133,14 @@ class _NewsPageState extends State<NewsPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    screenHeight = MediaQuery.of(context).size.height;
+    NewsPage.screenHeight = MediaQuery.of(context).size.height;
     Size size = MediaQuery.of(context).size;
-
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+     NewsPage.cHeight = NewsPage.screenHeight*0.3;
+    NewsPage.playingVideo = mainVideos[0]['id'];
     return RefreshIndicator(
       onRefresh: () => APICalls.refreshLiveStream(context),
       child: SafeArea(
@@ -150,7 +155,9 @@ class _NewsPageState extends State<NewsPage> with WidgetsBindingObserver {
                     builder: (context,snapshot) {
                       if (snapshot.hasError) {
                         return Center(
-                          child: Text("Ooops! Something went wrong."),
+                          child: Container(
+                            color: Colors.transparent,
+                          ),
                         );
                       }
                       if (snapshot.hasData) {
@@ -164,52 +171,59 @@ class _NewsPageState extends State<NewsPage> with WidgetsBindingObserver {
                                   .bottomCenter)),
                           child: Column(
                             children: [
-                              isScreenVisible
-                                  ? AnimatedContainer(
-                                  duration: Duration(milliseconds: 0),
-                                  curve: Curves.bounceInOut,
-                                  color: Colors.transparent,
-                                  height: cHeight,
-                                  width: double.infinity,
-                                  child: Container(
-                                    height: screenHeight * 0.4,
-                                    child: AspectRatio(
-                                      aspectRatio: 1,
-                                      child: WebView(
-                                        key: _key,
-                                        javascriptMode: JavascriptMode
-                                            .unrestricted,
-                                        initialUrl:video!.videoURL,
-                                        onWebViewCreated: (controller) =>
-                                        _controller = controller,
-                                      ),
-                                    ),
-                                  ))
-                                  : Text("Not found"),
                               AnimatedContainer(
-                                duration: Duration(milliseconds: 0),
-                                curve: Curves.bounceInOut,
-                                color: Colors.transparent,
-                                height: 60,
-                                width: double.infinity,
-                                child: Column(
-                                  children: [
-                                    Align(
-                                        alignment: Alignment.bottomLeft,
-                                        child: Text(
-                                          "NOW PLAYING",
-                                          style: CustomTextStyle.display3(
-                                              context),
-                                        )),
-                                    Flexible(
-                                      child: Text(
-                                       video!.title!,
-                                        style: CustomTextStyle.display4(context),
-                                      ),
-                                    )
-                                  ],
-                                ),
+                                 duration: Duration(milliseconds: 0),
+                                 curve: Curves.bounceInOut,
+                                 color: Colors.transparent,
+                                 height: NewsPage.cHeight,
+                                 child: Stack(
+
+                                  fit: StackFit.expand,
+                                   children: [
+                                     WebViewContainer(video!.videoURL!),
+                                    ],
+                                 ),
+
                               ),
+                              Align(
+                                  alignment:Alignment.bottomRight,
+                                  child: IconButton(onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) {
+                                              return MainVideo();
+                                            }));
+
+                                  }, icon: Icon(FontAwesomeIcons.expand),
+
+                      )
+                              ),
+
+                              // AnimatedContainer(
+                              //   duration: Duration(milliseconds: 0),
+                              //   curve: Curves.bounceInOut,
+                              //   color: Colors.transparent,
+                              //   height: 60,
+                              //   width: double.infinity,
+                              //   child: Column(
+                              //     children: [
+                              //       Align(
+                              //           alignment: Alignment.bottomLeft,
+                              //           child: Text(
+                              //             "NOW PLAYING",
+                              //             style: CustomTextStyle.display3(
+                              //                 context),
+                              //           )),
+                              //       Flexible(
+                              //         child: Text(
+                              //          NewsPage.playingTitle!,
+                              //           style: CustomTextStyle.display4(context),
+                              //         ),
+                              //       )
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                           ),
                         );
@@ -227,6 +241,7 @@ class _NewsPageState extends State<NewsPage> with WidgetsBindingObserver {
                 ),
             Expanded(
               child: Container(
+                color: Theme.of(context).scaffoldBackgroundColor,
                 child: FutureBuilder<List<Videos>>(
                     future: APICalls.getVideos(),
                     builder: (context, snapshot) {
@@ -238,7 +253,7 @@ class _NewsPageState extends State<NewsPage> with WidgetsBindingObserver {
                       if (snapshot.hasData) {
                         List<Videos>? data = snapshot.data;
                         return SingleChildScrollView(
-                            controller: controller,
+                             controller: controller,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -248,7 +263,7 @@ class _NewsPageState extends State<NewsPage> with WidgetsBindingObserver {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     SizedBox(
-                                      height: 30,
+                                      height: 8,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -259,108 +274,49 @@ class _NewsPageState extends State<NewsPage> with WidgetsBindingObserver {
                                             CustomTextStyle.display1(context),
                                       ),
                                     ),
+
                                     SizedBox(
-                                      height: 8,
+                                      height: 2,
                                     ),
-                                    Container(
-                                      margin: EdgeInsets.symmetric(
-                                          vertical: kDefaultPadding / 2),
-                                      height: size.height * 0.28,
-                                      child: ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: data!.length,
-                                        itemBuilder: (context, index) =>
-                                            GestureDetector(
-                                          onTap: () {
-                                            print("tapped");
-                                            setState(() {
-                                              print(NewsPage.liveThumb);
-                                              NewsPage.liveThumb =
-                                                  data[index].thumbnail;
-                                              print(NewsPage.liveThumb);
-                                              NewsPage.playingTitle =
-                                                  data[index].title;
-
-                                              print("on tap video");
-                                              print(NewsPage.playingVideo);
-                                              print("new load");
-
-                                                NewsPage.playingVideo= data[index].id;
-                                              print(NewsPage.playingVideo);
-
-                                            });
-                                            LandingPage.landingPageIndex =1;
-                                            setState(() {
-                                              NewsPage.playingVideo= data[index].id;
-                                              refreshVideo(context);
-                                              _controller?.reload();
-                                            });
-
-                                            // Navigator.push(
-                                            //     context,
-                                            //     MaterialPageRoute(
-                                            //         builder: (_) {
-                                            //           return LandingPage();
-                                            //         }));
-                                          },
-                                          child: Padding(
-                                            padding: EdgeInsets.only(left: 10),
-                                            child: Container(
-                                              // height: size.height*0.16,
-                                              width: size.width * 0.7,
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    width: size.width,
-                                                    margin: EdgeInsets.only(
-                                                        right: 8),
-                                                    // width: 160,
-                                                    height: 160,
-                                                    child: Image.network(
-                                                      data[index].thumbnail!,
-                                                      fit: BoxFit.contain,
-                                                      width: size.width,
-                                                      height: size.height,
-                                                      filterQuality:
-                                                          FilterQuality.high,
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .stretch,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.end,
-                                                      children: [
-                                                        Text(
-                                                          data[index].title!,
-                                                          // style: CustomTextStyle.display1(context),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
+                                   MoreVideosPage(),
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Card(
+                                        child: FlatButton(onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) {
+                                                    return AllMoreVideos();
+                                                  }));
+                                        },
+                                          child: Text("View All"),),
                                       ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 15, right: 15),
                                       child: Text(
                                         "WORLD NEWS",style: CustomTextStyle.display1(context),
-
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 8,
+                                      height: 2,
                                     ),
-                                    WorldNewsPage(),
+                                   WorldNewsPage(),
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Card(
+                                        child: FlatButton(onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) {
+                                                    return AllMoreVideos();
+                                                  }));
+                                        },
+                                          child: Text("View All"),),
+                                      ),
+                                    ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 15, right: 15),
                                       child: Text(
@@ -371,7 +327,21 @@ class _NewsPageState extends State<NewsPage> with WidgetsBindingObserver {
                                     SizedBox(
                                       height: 8,
                                     ),
-                                    KTNLeoPage(),
+                                   KTNLeoPage(),
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Card(
+                                        child: FlatButton(onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) {
+                                                    return AllMoreVideos();
+                                                  }));
+                                        },
+                                          child: Text("View All"),),
+                                      ),
+                                    ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 15, right: 15),
                                       child: Text(
@@ -383,7 +353,21 @@ class _NewsPageState extends State<NewsPage> with WidgetsBindingObserver {
                                       height: 8,
                                     ),
                                     // KTNSportsSection(),
-                                    KTNBusinessSection(),
+                                   KTNBusinessSection(),
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Card(
+                                        child: FlatButton(onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) {
+                                                    return AllMoreVideos();
+                                                  }));
+                                        },
+                                          child: Text("View All"),),
+                                      ),
+                                    ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 15, right: 15),
                                       child: Text(
@@ -396,6 +380,25 @@ class _NewsPageState extends State<NewsPage> with WidgetsBindingObserver {
                                     ),
                                     // KTNMESection(),
                                     MostViewedPage(),
+
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Card(
+                                        child: FlatButton(onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) {
+                                                    return AllMoreVideos();
+                                                  }));
+                                        },
+                                          child: Text("View All"),),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+
                                   ],
                                 )
                               ],
@@ -456,4 +459,9 @@ class _NewsPageState extends State<NewsPage> with WidgetsBindingObserver {
       ),
     );
   }
+
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

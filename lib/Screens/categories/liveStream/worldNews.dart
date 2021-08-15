@@ -48,7 +48,7 @@ class _WorldNewsPageState extends State<WorldNewsPage> {
 
                 Container(
                   margin: EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
-                  height: size.height*0.28,
+                  height: size.height*0.3,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: data!.length,
@@ -65,38 +65,40 @@ class _WorldNewsPageState extends State<WorldNewsPage> {
                                   return LandingPage();
                                 }));
                       },
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Container(
-                          // height: size.height*0.16,
-                          width: size.width*0.7,
-                          child: Column(
-                            children: [
-                              Container(
-                                width:size.width,
-                                margin: EdgeInsets.only(right: 8),
-                                // width: 160,
-                                height: 160,
-                                child: Image.network(data[index].thumbnail!,
-                                  fit:BoxFit.contain,
-                                  width: size.width,
-                                  height: size.height,
-                                  filterQuality: FilterQuality.high,
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            // height: size.height*0.16,
+                            width: size.width*0.7,
+                            child: Column(
+                              children: [
+                                Container(
+                                  width:size.width,
+                                  margin: EdgeInsets.only(right: 8),
+                                  // width: 160,
+                                  height: 160,
+                                  child: Image.network(data[index].thumbnail!,
+                                    fit:BoxFit.contain,
+                                    width: size.width,
+                                    height: size.height,
+                                    filterQuality: FilterQuality.high,
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(data[index].title!,
-                                      // style: CustomTextStyle.display1(context),
-                                    ),
-                                  ],
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(data[index].title!,
+                                        // style: CustomTextStyle.display1(context),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
