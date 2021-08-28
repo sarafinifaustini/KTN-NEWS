@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:ktn_news/API/API_Calls.dart';
 import 'package:ktn_news/API/APIs.dart';
+import 'package:ktn_news/model/video.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'package:ktn_news/Video/WebView.dart';
+import 'package:ktn_news/Video/YoutubePlayer.dart';
 import 'file:///C:/Users/jsarafini/AndroidStudioProjects/ktn_news/lib/Screens/categories/News/News.dart';
 import 'package:ktn_news/model/Category1.dart';
 import 'package:http/http.dart' as http;
@@ -16,6 +19,9 @@ import '../../../constants.dart';
 import '../../LandingPage.dart';
 
 class MoreVideosPage extends StatefulWidget {
+   final String theDetail;
+
+  const MoreVideosPage({Key? key, required this.theDetail}) : super(key: key);
   @override
   _MoreVideosPageState createState() => _MoreVideosPageState();
 }
@@ -25,22 +31,35 @@ class _MoreVideosPageState extends State<MoreVideosPage> {
 
   void initState() {
     super.initState();
-    APICalls.refreshLiveStream(context);
   }
 
-  refreshAction() {
-    setState(() {
-      APICalls.getVideo(NewsPage.playingVideo!);
-print("here");
+  refreshAction(theVideoId,theVideoTitle) {
+    setState(() async {
+        // APICalls.getVideo(NewsPage.playingVideo!);
+        print("here");
+        String videoURL = "https://www.standardmedia.co.ke/farmkenya/api/ktn-home/video/$theVideoId";
+        try {
+          var result = await http.get(Uri.parse(videoURL));
+          if (result.statusCode == 200) {
+            Map<String,dynamic> data = jsonDecode(result.body)['video'];
+            Video video = Video.fromJson(data);
+            YoutubeVideo.controller!.load("${data['videoURL']}");
+     YoutubeVideo.youTubeTitle = theVideoTitle;
+          } else {
+         print("problem in refresh Action");
+            throw Exception('Could not connect.');
+          }
+        } catch (e) {
+          throw e;
+        }
+          });
 
-      // _response = http.read(dadJokeApi, headers: httpHeaders);
-    });
   }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return FutureBuilder<List<Videos>>(
-        future: APICalls.getVideos(),
+        future: APICalls.getVideos(widget.theDetail),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(
@@ -61,6 +80,7 @@ print("here");
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: data!.length,
+                    physics: BouncingScrollPhysics(),
                     itemBuilder: (context, index) =>
                         GestureDetector(
                           onTap: () {
@@ -70,9 +90,10 @@ print("here");
                               NewsPage.playingTitle ="";
                               NewsPage.playingTitle =
                                   data[index].title;
+                              print(NewsPage.playingTitle);
                               NewsPage.playingVideo = null;
                               NewsPage.playingVideo= data[index].id;
-                              refreshAction();
+                               refreshAction(NewsPage.playingVideo!,NewsPage.playingTitle!);
 
                             });
 

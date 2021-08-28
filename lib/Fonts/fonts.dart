@@ -31,6 +31,12 @@ class CustomTextStyle {
         .textTheme
         .display1!
         .copyWith(fontSize: 15.0,color:Colors.white);
+  } static TextStyle ytCaption(context) {
+    return Theme
+        .of(context)
+        .textTheme
+        .display1!
+        .copyWith(fontSize: 12.0,color:Colors.white);
   }
   static TextStyle display5(context) {
     return Theme

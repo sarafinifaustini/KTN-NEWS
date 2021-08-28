@@ -12,7 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 class WebViewContainer extends StatefulWidget {
   final String url;
 static  WebViewController? controller;
-  WebViewContainer(this.url);
+   WebViewContainer(this.url);
 
   @override
   createState() => _WebViewContainerState();
@@ -51,7 +51,6 @@ class _WebViewContainerState extends State<WebViewContainer>
   Widget build(BuildContext context) {
     print("inside web view");
     print(widget.url);
-   screenHeight = MediaQuery.of(context).size.height;
     return isScreenVisible
         ? AspectRatio(
           aspectRatio: 1,
@@ -82,28 +81,28 @@ class _WebViewContainerState extends State<WebViewContainer>
     @override
     void initState() {
     super.initState();
-    controller.addListener((onScroll));
+    // controller.addListener((onScroll));
     WidgetsBinding.instance!.addObserver(this);
 
     }
-  onScroll() {
-    if (controller.position.atEdge) {
-      if (controller.position.pixels == 0) {
-        //if at the top
-        print("at the top");
-
-      }
-      //else if at bottom
-    } else {
-      print("not at top");
-      setState(() {
-
-      });
-    }
-  }
+  // onScroll() {
+  //   if (controller.position.atEdge) {
+  //     if (controller.position.pixels == 0) {
+  //       //if at the top
+  //       print("at the top");
+  //
+  //     }
+  //     //else if at bottom
+  //   } else {
+  //     print("not at top");
+  //     setState(() {
+  //
+  //     });
+  //   }
+  // }
   @override
   void dispose() {
-    controller.removeListener(onScroll);
+    // controller.removeListener(onScroll);
     if(isScreenVisible = false) {
       WidgetsBinding.instance!.removeObserver(this);
     }
@@ -117,12 +116,14 @@ class _WebViewContainerState extends State<WebViewContainer>
       if(this.mounted){
       setState(() {
         isScreenVisible = true;
+        print("screen is visible");
       });
       }
-      WebViewContainer.controller?.reload();
+      // WebViewContainer.controller?.reload();
     } else {
       setState(() {
         isScreenVisible = false;
+        print("screen is not visible");
       });
     }
   }

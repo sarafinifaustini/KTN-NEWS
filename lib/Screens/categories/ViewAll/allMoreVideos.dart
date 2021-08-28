@@ -6,6 +6,7 @@ import 'package:ktn_news/Video/MainVideo.dart';
 import 'package:ktn_news/Video/WebView.dart';
 import 'package:ktn_news/model/Category1.dart';
 import 'package:ktn_news/model/video.dart';
+import 'package:flutter/services.dart';
 
 class AllMoreVideos extends StatefulWidget {
   static String theTitle ="The Eagle has landed";
@@ -27,6 +28,10 @@ class _AllMoreVideosState extends State<AllMoreVideos> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: FutureBuilder<List<Videos>>(

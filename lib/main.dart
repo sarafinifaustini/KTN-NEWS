@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-
 import 'package:ktn_news/Screens/LandingPage.dart';
 import 'package:ktn_news/Screens/LifeCycleManager.dart';
+import 'package:ktn_news/Video/YoutubePlayer.dart';
 import 'package:provider/provider.dart';
+import 'Screens/categories/News/PlayingVideo.dart';
 import 'Theme/theme.dart';
 import 'Video/MainVideo.dart';
 

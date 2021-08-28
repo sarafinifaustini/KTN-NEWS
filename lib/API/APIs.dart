@@ -1,6 +1,7 @@
 const String Base ="https://www.standardmedia.co.ke/farmkenya/api/ktn-news";
 
-const String news =Base + "/videos/1/0/20";
+const String news =Base;
+// const String news =Base + "/videos/1/0/20";
 
 const String allNews = Base + "/videos/1/0/";
 
