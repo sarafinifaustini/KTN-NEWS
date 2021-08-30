@@ -21,13 +21,15 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  animated_splash_screen: ^1.1.0
+  custom_splash: ^0.0.2
   flutter:
     sdk: flutter
 
   flutter_icons: ^1.1.0
-
-  flutter_inappwebview: ^5.3.2
-  webview_flutter: ^2.0.12
+#
+#  flutter_inappwebview: ^5.3.2
+#  webview_flutter: ^2.0.12
 
 dev_dependencies:
   flutter_test:
@@ -45,6 +47,13 @@ dev_dependencies:
   super_widgets: ^1.0.0
   youtube_player_flutter: ^8.0.0
   persistent_bottom_nav_bar:
+  simple_animations:
+#  firebase_analytics:
+  get_it:
+
+  dialog_manager:
+  firebase_core: 
+  firebase_auth:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

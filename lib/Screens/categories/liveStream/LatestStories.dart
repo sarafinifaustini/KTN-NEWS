@@ -21,17 +21,17 @@ import 'package:ktn_news/Fonts/fonts.dart';
 import '../../../constants.dart';
 import '../../LandingPage.dart';
 
-class MorningExpressPage extends StatefulWidget {
+class LatestStories extends StatefulWidget {
   final String theDetail;
 
-  const MorningExpressPage({Key? key, required this.theDetail})
+  const LatestStories({Key? key, required this.theDetail})
       : super(key: key);
 
   @override
-  _MorningExpressPageState createState() => _MorningExpressPageState();
+  _LatestStoriesState createState() => _LatestStoriesState();
 }
 
-class _MorningExpressPageState extends State<MorningExpressPage> {
+class _LatestStoriesState extends State<LatestStories> {
   void initState() {
     super.initState();
   }
@@ -137,6 +137,7 @@ class _MorningExpressPageState extends State<MorningExpressPage> {
                         ));
                       },
                       child: Card(
+
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
@@ -161,7 +162,7 @@ class _MorningExpressPageState extends State<MorningExpressPage> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
+                                    CrossAxisAlignment.stretch,
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Text(

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "604369543937",
+    "project_id": "ktnnews-4b660",
+    "storage_bucket": "ktnnews-4b660.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:604369543937:android:0a44566ba3e0a2f5d87100",
+        "android_client_info": {
+          "package_name": "standardmedia.co.ke.ktn_news"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "604369543937-n029m5qqrfu154j11tp806mref3tjtbb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "standardmedia.co.ke.ktn_news",
+            "certificate_hash": "c4d21d8e588f89f221c85436b7d7969c50d87738"
+          }
+        },
+        {
+          "client_id": "604369543937-qpms4hogqj9t5feb7a6m7qnbh4vps8qf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoOaHM0s7ojmZTZZ9eUEg2G1XRl1XHuBM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "604369543937-qpms4hogqj9t5feb7a6m7qnbh4vps8qf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

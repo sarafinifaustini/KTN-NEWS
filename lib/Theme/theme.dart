@@ -58,7 +58,7 @@ class MyThemes {
     scaffoldBackgroundColor: Colors.grey.shade900,
     primaryColor:  Colors.black,
     // primaryColorDark: Colors.black,
-
+    backgroundColor: myRed,
     colorScheme: ColorScheme.dark(),
 
     primaryColorDark: Colors.black,

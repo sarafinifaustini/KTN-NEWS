@@ -6,7 +6,7 @@ import 'package:ktn_news/Screens/categories/liveStream/moreVideos.dart';
 import 'package:ktn_news/Screens/categories/liveStream/worldNews.dart';
 import 'package:ktn_news/Video/MainVideo.dart';
 import 'package:ktn_news/Video/YoutubePlayer.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +35,7 @@ class _VideoPageState extends State<VideoPage>  with AutomaticKeepAliveClientMix
   final controller = ScrollController();
 
   Video? video;
-  WebViewController? _controller;
+
   final _key = UniqueKey();
   bool isScreenVisible = true;
   List mainVideos = [];

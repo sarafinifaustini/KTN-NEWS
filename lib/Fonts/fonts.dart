@@ -10,7 +10,7 @@ class CustomTextStyle {
         .of(context)
         .textTheme
         .display1!
-        .copyWith(fontSize: 15.0 ,color:Theme.of(context).textSelectionColor,fontWeight: FontWeight.bold);
+        .copyWith(fontSize: 12.0 ,color:Theme.of(context).textSelectionColor,fontWeight: FontWeight.bold);
   }
   static TextStyle display2(context) {
     return Theme
@@ -24,13 +24,13 @@ class CustomTextStyle {
         .of(context)
         .textTheme
         .display1!
-        .copyWith(fontSize: 15.0,color: Colors.white.withOpacity(0.4),fontWeight: FontWeight.w400);
+        .copyWith(fontSize: 12.0,color:Colors.white,fontWeight: FontWeight.w400);
   } static TextStyle display4(context) {
     return Theme
         .of(context)
         .textTheme
         .display1!
-        .copyWith(fontSize: 15.0,color:Colors.white);
+        .copyWith(fontSize: 13.0,color:Colors.white,fontWeight: FontWeight.bold);
   } static TextStyle ytCaption(context) {
     return Theme
         .of(context)
@@ -43,6 +43,6 @@ class CustomTextStyle {
         .of(context)
         .textTheme
         .display1!
-        .copyWith(fontSize: 15.0,color: Colors.white.withOpacity(0.4),fontWeight: FontWeight.w400);
+        .copyWith(fontSize: 12.0,color: Colors.white.withOpacity(0.4),fontWeight: FontWeight.w400);
   }
 }

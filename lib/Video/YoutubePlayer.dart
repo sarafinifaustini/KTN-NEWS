@@ -7,14 +7,23 @@ import 'package:ktn_news/API/API_Calls.dart';
 import 'package:ktn_news/Fonts/fonts.dart';
 import 'package:ktn_news/Screens/LandingPage.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+import '../Screens/categories/ViewAll/allMoreVideos.dart';
+import '../Screens/categories/liveStream/KTN_Business.dart';
+import '../Screens/categories/liveStream/MostViewed.dart';
+import '../Screens/categories/liveStream/ktn_leo.dart';
+import '../Screens/categories/liveStream/moreVideos.dart';
+import '../Screens/categories/liveStream/worldNews.dart';
+import '../model/Category1.dart';
 /// Homepage
 class YoutubeVideo extends StatefulWidget {
+  final Widget? child;
   final String? youTubeUrl;
  static String? youTubeTitle;
   static String? ID;
    static YoutubePlayerController? controller;
 
-  const YoutubeVideo({Key? key, this.youTubeUrl,}) : super(key: key);
+  const YoutubeVideo({Key? key, this.youTubeUrl, this.child,}) : super(key: key);
 
 
   @override
@@ -33,6 +42,7 @@ class _YoutubeVideoState extends State<YoutubeVideo> {
   bool _isPlayerReady = false;
   String? videoID;
 
+
   final List<String> _ids = [
     'gQDByCdjUXw',
     'iLnmTe5Q2Qw',
@@ -48,7 +58,7 @@ class _YoutubeVideoState extends State<YoutubeVideo> {
   void initState() {
     super.initState();
     YoutubeVideo.controller = YoutubePlayerController(
-      initialVideoId:  widget.youTubeUrl!,
+      initialVideoId: 'X0HnLzXnwPo',
       flags: const YoutubePlayerFlags(
         mute: false,
         autoPlay: true,
@@ -93,7 +103,7 @@ class _YoutubeVideoState extends State<YoutubeVideo> {
 
   @override
   Widget build(BuildContext context) {
-    LandingPage.videoID = YoutubePlayer.convertUrlToId(widget.youTubeUrl!)!;
+    // LandingPage.videoID = YoutubePlayer.convertUrlToId(widget.youTubeUrl!)!;
     print("inside zeeeeeeee");
     print(videoID);
     return YoutubePlayerBuilder(
@@ -107,60 +117,60 @@ class _YoutubeVideoState extends State<YoutubeVideo> {
         progressIndicatorColor: Colors.blueAccent,
         topActions: <Widget>[
           const SizedBox(width: 8.0),
-          Expanded(
-            child:  AnimatedContainer(
-              duration: Duration(milliseconds: 0),
-              curve: Curves.bounceInOut,
-              color: Colors.transparent,
-              height: 60,
-              width: double.infinity,
-              child: Column(
-                children: [
-                  Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Column(
-                        children: [
-                          Text(
-                            "",
-                            style: CustomTextStyle.display3(
-                                context),
-                          ),
-                        ],
-                      )),
-                  Flexible(
-                    child: Text(
-                      YoutubeVideo.controller!.metadata.title,
-                      style: CustomTextStyle.ytCaption(context),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                    ),
-
-                  )
-                ],
-              ),
-            ),
-            //
-            //
-            // Text(
-            //   YoutubeVideo.controller!.metadata.title,
-            //   style: const TextStyle(
-            //     color: Colors.white,
-            //     fontSize: 18.0,
-            //   ),
-            //   overflow: TextOverflow.ellipsis,
-            //   maxLines: 1,
-            // ),
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.share,
-              color: Colors.white,
-              size: 25.0,
-            ),
-            onPressed: () {
-              log('Settings Tapped!');
-            },
-          ),
+          // Expanded(
+          //   child:  AnimatedContainer(
+          //     duration: Duration(milliseconds: 0),
+          //     curve: Curves.bounceInOut,
+          //     color: Colors.transparent,
+          //     height: 60,
+          //     width: double.infinity,
+          //     child: Column(
+          //       children: [
+          //         Align(
+          //             alignment: Alignment.bottomLeft,
+          //             child: Column(
+          //               children: [
+          //                 Text(
+          //                   "",
+          //                   style: CustomTextStyle.display3(
+          //                       context),
+          //                 ),
+          //               ],
+          //             )),
+          //         Flexible(
+          //           child: Text(
+          //             YoutubeVideo.controller!.metadata.title,
+          //             style: CustomTextStyle.ytCaption(context),
+          //             overflow: TextOverflow.ellipsis,
+          //             maxLines: 2,
+          //           ),
+          //
+          //         )
+          //       ],
+          //     ),
+          //   ),
+          //   //
+          //   //
+          //   // Text(
+          //   //   YoutubeVideo.controller!.metadata.title,
+          //   //   style: const TextStyle(
+          //   //     color: Colors.white,
+          //   //     fontSize: 18.0,
+          //   //   ),
+          //   //   overflow: TextOverflow.ellipsis,
+          //   //   maxLines: 1,
+          //   // ),
+          // ),
+          // IconButton(
+          //   icon: const Icon(
+          //     Icons.share,
+          //     color: Colors.white,
+          //     size: 25.0,
+          //   ),
+          //   onPressed: () {
+          //     log('Settings Tapped!');
+          //   },
+          // ),
         ],
         onReady: () {
           _isPlayerReady = true;
@@ -172,18 +182,18 @@ class _YoutubeVideoState extends State<YoutubeVideo> {
         },
       ),
       builder: (context, player) {
-        return  Column(
-            children: [
-              player,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  AnimatedContainer(
-                    duration: Duration(milliseconds: 0),
-                    curve: Curves.bounceInOut,
-                    color: Colors.black,
-                    height: 60,
-                    width: double.infinity,
+        return  SafeArea(
+          child: Column(
+              children: [
+                player,
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 0),
+                  curve: Curves.bounceInOut,
+                  color: Colors.grey[900],
+                  height: 60,
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left:8.0,right: 8.0),
                     child: Column(
                       children: [
                         Align(
@@ -209,53 +219,11 @@ class _YoutubeVideoState extends State<YoutubeVideo> {
                       ],
                     ),
                   ),
-
-                ],
-              ),
-              // ListView(
-              //   children: [
-              //     player,
-              //     Column(
-              //       crossAxisAlignment: CrossAxisAlignment.stretch,
-              //       children: [
-              //         AnimatedContainer(
-              //           duration: Duration(milliseconds: 0),
-              //           curve: Curves.bounceInOut,
-              //           color: Colors.black,
-              //           height: 60,
-              //           width: double.infinity,
-              //           child: Column(
-              //             children: [
-              //               Align(
-              //                   alignment: Alignment.bottomLeft,
-              //                   child: Column(
-              //                     children: [
-              //                       Text(
-              //                         "NOW PLAYING",
-              //                         style: CustomTextStyle.display3(
-              //                             context),
-              //                       ),
-              //                     ],
-              //                   )),
-              //               Flexible(
-              //                 child: Text(
-              //                   YoutubeVideo.controller!.metadata.title,
-              //                   style: CustomTextStyle.display4(context),
-              //                   overflow: TextOverflow.ellipsis,
-              //                   maxLines: 2,
-              //                 ),
-              //
-              //               )
-              //             ],
-              //           ),
-              //         ),
-              //
-              //       ],
-              //     ),
-              //   ],
-              // ),
-            ],
-          );
+                ),
+          widget.child!,
+              ],
+            ),
+        );
       },
     );
   }

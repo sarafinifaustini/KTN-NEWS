@@ -15,6 +15,7 @@ class APICalls {
   static List getVids=[];
   static String? theVideoURL;
   static Future<List<Videos>> getVideos(String detail) async {
+    print(news+detail);
     try {
       final response = await http.get(Uri.parse(news+detail),
           headers: <String, String>{
@@ -27,7 +28,6 @@ class APICalls {
         NewsPage.playingTitle = jsonResponse[0]['title'];
 
         getVids = jsonResponse;
-        // print(jsonResponse);
         return jsonResponse
             .map((data) => new Videos.fromJson(data))
             .toList();
@@ -124,7 +124,7 @@ class APICalls {
          YoutubeVideo.ID =  "${data['videoURL']}";
          // YoutubeVideo.controller!.load("${data['videoURL']}");
 
-        WebViewContainer.controller!.loadUrl("https://www.youtube.com/embed/${data['videoURL']}");
+        // WebViewContainer.controller!.loadUrl("https://www.youtube.com/embed/${data['videoURL']}");
       print("does have data----------------");
        print(video.youtubeId);
         return video;

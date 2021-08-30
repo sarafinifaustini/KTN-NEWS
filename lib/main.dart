@@ -1,18 +1,25 @@
+// @dart=2.9
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:ktn_news/GA/dialogManager.dart';
 import 'package:ktn_news/Screens/LandingPage.dart';
 import 'package:ktn_news/Screens/LifeCycleManager.dart';
-import 'package:ktn_news/Video/YoutubePlayer.dart';
+import 'package:ktn_news/SplashScreen.dart';
 import 'package:provider/provider.dart';
-import 'Screens/categories/News/PlayingVideo.dart';
+import 'GA/Google_analytics.dart';
+import 'GA/locator.dart';
+import 'generateRoute.dart' as router;
+// import 'package:get/get.dart';
+import 'Services/Navigation.dart';
+import 'Services/dialog.dart';
 import 'Theme/theme.dart';
-import 'Video/MainVideo.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp();
   if (Platform.isAndroid) {
     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
 
@@ -33,6 +40,7 @@ Future<void> main() async {
       );
     }
   }
+  setupLocator();
   runApp(MyApp());
 }
 
@@ -52,12 +60,28 @@ class MyApp extends StatelessWidget {
                   // final themeProvider = Provider.of<ThemeProvider>(context);
 
                   return MaterialApp(
-                    title: 'KTN NEWS',
+                    builder: (context, child) => Navigator(
+                      key: locator<DialogService>().dialogNavigationKey,
+                      onGenerateRoute: (settings) => MaterialPageRoute(
+                          builder: (context) => DialogManager(child: child)),
+                    ),
+                    navigatorKey: locator<NavigationService>().navigationKey,
+                    // navigatorObservers: [locator<AnalyticsService>().getAnalyticsObserver()],
                     debugShowCheckedModeBanner: false,
+                    title: "KTN_NEWS",
+                    // themeMode: themeProvider.themeMode,
                     theme: MyThemes.lightTheme,
                     darkTheme: MyThemes.darkTheme,
-                    home: LandingPage(),
+                    localeResolutionCallback:
+                        (Locale locale, Iterable<Locale> supportedLocales) {
+                      //print("change language");
+                      return locale;
+                    },
+                    home:Splash(),
+                     onGenerateRoute: router.generateRoute,
+                    // initialRoute: HomeViewRoute,
                   );
+
                 })),
     );
   }

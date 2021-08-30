@@ -11,6 +11,7 @@ import 'package:ktn_news/model/Category1.dart';
 import 'package:http/http.dart' as http;
 import 'package:ktn_news/Fonts/fonts.dart';
 import 'package:ktn_news/model/video.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../constants.dart';
 import '../../LandingPage.dart';
@@ -58,11 +59,48 @@ class _KTNLeoPageState extends State<KTNLeoPage> {
         future: APICalls.getKtnLeo(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Center(
-              child: Container(child: Text('Oops! Something went wrong')),
+
+            return SizedBox(
+              // width: double.infinity,
+              height: size.height * 0.3,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    physics: BouncingScrollPhysics(),
+                    itemCount: 20,
+                    itemBuilder: (BuildContext context, int index) =>
+                        dummyShimmer(),
+                  ),
+                ),
+              ),
             );
           }
-          if (snapshot.hasData) {
+          else if (!snapshot.hasData) {
+
+            return SizedBox(
+              // width: double.infinity,
+              height: size.height * 0.3,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    physics: BouncingScrollPhysics(),
+                    itemCount: 20,
+                    itemBuilder: (BuildContext context, int index) =>
+                        dummyShimmer(),
+                  ),
+                ),
+              ),
+            );
+          }
+          else if (snapshot.hasData) {
             List<Videos>? data = snapshot.data;
 
             return Column(
@@ -198,6 +236,56 @@ class _KTNLeoPageState extends State<KTNLeoPage> {
               );
             }),
           ),
+        ),
+      ),
+    );
+  }
+  Widget dummyShimmer() {
+    Size size = MediaQuery.of(context).size;
+    return Padding(
+      padding: const EdgeInsets.all( 8.0),
+      child: Container(
+        width: size.width * 0.7,
+        child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              width: size.width,
+              height: 160,
+              color: Colors.white,
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+            ),
+            Container(
+              width: size.width * 0.7,
+              height: 8.0,
+              color: Colors.white,
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 2.0),
+            ),
+            Align(
+              alignment:Alignment.bottomLeft,
+              child: Container(
+                width: size.width * 0.5,
+                height: 8.0,
+                color: Colors.white,
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 2.0),
+            ),
+            Align(
+              alignment:Alignment.bottomLeft,
+              child: Container(
+                width: size.width * 0.2,
+                height: 8.0,
+                color: Colors.white,
+              ),
+            ),
+
+          ],
         ),
       ),
     );
