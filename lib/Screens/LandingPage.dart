@@ -5,9 +5,9 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ktn_news/Screens/categories/Business.dart';
-import 'file:///C:/Users/jsarafini/AndroidStudioProjects/ktn_news/lib/Screens/categories/liveStream/LiveStream.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ktn_news/Screens/categories/ViewAll/allMoreVideos.dart';
+import 'package:ktn_news/Screens/categories/liveStream/LiveStream.dart';
 import 'package:ktn_news/Video/YoutubePlayer.dart';
 import 'package:ktn_news/constants.dart';
 import 'package:ktn_news/model/video.dart';
@@ -77,10 +77,10 @@ class _LandingPageState extends State<LandingPage> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Theme.of(context).primaryColor,
-          title: Padding(
-            padding: const EdgeInsets.only(top: 16.0),
+          title: FittedBox(
             child: Container(
                 height: size.height * 0.08,
+                // height: size.height * 0.08,
                 child: Image.asset("assets/images/logo.png")),
           ),
           actions: [

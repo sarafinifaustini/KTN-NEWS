@@ -25,7 +25,7 @@ apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 apply plugin: 'com.google.gms.google-services'
 // Add this line
-//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'
 
 
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -59,9 +59,11 @@ flutter {
 dependencies {
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:28.4.0')
-    implementation 'com.google.guava:guava:28.2-jre'
+//    implementation 'com.google.guava:guava:28.2-jre'
     // Declare the dependency for the Analytics library
     // When using the BoM, you don't specify versions in Firebase library dependencies
-//        implementation 'com.google.firebase:firebase-analytics'
+       implementation 'com.google.firebase:firebase-analytics'
     implementation "com.android.support:multidex:1.0.3"
+
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }

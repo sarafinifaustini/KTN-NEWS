@@ -1,19 +1,16 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:ktn_news/API/API_Calls.dart';
-import 'package:ktn_news/Screens/LifeCycleManager.dart';
+import 'package:ktn_news/Fonts/fonts.dart';
 import 'package:ktn_news/Screens/categories/News/News.dart';
-import 'package:ktn_news/Video/MainVideo.dart';
-import 'package:ktn_news/Video/WebView.dart';
 import 'package:ktn_news/Video/YoutubePlayer.dart';
 import 'package:ktn_news/model/Category1.dart';
 import 'package:ktn_news/model/video.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/services.dart';
 
-import '../../../Fonts/fonts.dart';
 
 class AllMoreVideos extends StatefulWidget {
   static String theTitle = "The Eagle has landed";
@@ -39,7 +36,7 @@ class _AllMoreVideosState extends State<AllMoreVideos> {
         var result = await http.get(Uri.parse(videoURL));
         if (result.statusCode == 200) {
           Map<String, dynamic> data = jsonDecode(result.body)['video'];
-          Video video = Video.fromJson(data);
+
           YoutubeVideo.controller!.load("${data['videoURL']}");
 
         } else {
@@ -137,53 +134,73 @@ class _AllMoreVideosState extends State<AllMoreVideos> {
                         SliverGrid(
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
+                            childAspectRatio: 1,
+                            mainAxisExtent: 150.0,
                           ),
                           delegate: SliverChildBuilderDelegate(
                             (BuildContext context, int index) {
-                              return Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
+                              return  GestureDetector(
+                                onTap: () {
+                                  print("tapped");
+                                  setState(() {
+                                    print(NewsPage.playingTitle);
+                                    NewsPage.playingTitle ="";
+                                    NewsPage.playingTitle =
+                                        data![index].title;
+                                    NewsPage.playingVideo = null;
+                                    NewsPage.playingVideo= data[index].id;
+                                    refreshAction(NewsPage.playingVideo);
 
-                                            refreshAction(
-                                              data![index].id,);
-                                          });
-
-                                        },
-                                        child: Container(
-                                          width: size.width,
-                                          margin: EdgeInsets.only(right: 8),
-                                          // width: 160,
-                                          height: 80,
-                                          child: Image.network(
-                                            data![index].thumbnail!,
-                                            fit: BoxFit.contain,
-                                            width: size.width,
-                                            height: size.height,
-                                            filterQuality: FilterQuality.high,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                  });
+                                },
+                                child: FittedBox(
+                                  child: Card(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        // height: size.height*0.25,
+                                        width: size.width * 0.7,
                                         child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          mainAxisAlignment: MainAxisAlignment.end,
                                           children: [
-                                            Text(
-                                              data[index].title!,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 4,
+                                            Container(
+                                              width: size.width,
+                                              margin: EdgeInsets.only(
+                                                  right: 8),
+                                              // width: 160,
+                                              height: 160,
+                                              child: Image.network(
+                                                data![index].thumbnail!,
+                                                fit: BoxFit.contain,
+                                                width: size.width,
+                                                height: size.height,
+                                                filterQuality:
+                                                FilterQuality.high,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                              const EdgeInsets.all(
+                                                  8.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment
+                                                    .stretch,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    data[index].title!,
+                                                     style: TextStyle(fontSize: 18),
+                                                     overflow: TextOverflow.ellipsis,
+                                                    maxLines: 3,
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 ),
                               );

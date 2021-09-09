@@ -40,25 +40,19 @@ class _YoutubeVideoState extends State<YoutubeVideo> {
   double _volume = 100;
   bool _muted = false;
   bool _isPlayerReady = false;
-  String? videoID;
-
+  String videoId = YoutubePlayer.convertUrlToId("https://www.youtube.com/embed/live_stream?channel=UCKVsdeoHExltrWMuK0hOWmg")!;
 
   final List<String> _ids = [
-    'gQDByCdjUXw',
-    'iLnmTe5Q2Qw',
-    '_WoCV4c6XOE',
-    'KmzdUe0RSJo',
-    '6jZDSSZZxjQ',
-    'p2lYr3vM_1w',
-    '7QUtEmBT_-w',
-    '34_PXCzGw1M',
+    'L-uY64YQXIY',
+    'L-uY64YQXIY',
   ];
 
   @override
   void initState() {
     super.initState();
+    print(videoId);
     YoutubeVideo.controller = YoutubePlayerController(
-      initialVideoId: 'X0HnLzXnwPo',
+      initialVideoId: 'L-uY64YQXIY',
       flags: const YoutubePlayerFlags(
         mute: false,
         autoPlay: true,
@@ -92,20 +86,18 @@ class _YoutubeVideoState extends State<YoutubeVideo> {
     super.deactivate();
   }
 
-  @override
-  void dispose() {
-    YoutubeVideo.controller!.dispose();
-    _idController.dispose();
-    _seekToController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   YoutubeVideo.controller!.dispose();
+  //   _idController.dispose();
+  //   _seekToController.dispose();
+  //   super.dispose();
+  // }
 
 
   @override
   Widget build(BuildContext context) {
     // LandingPage.videoID = YoutubePlayer.convertUrlToId(widget.youTubeUrl!)!;
-    print("inside zeeeeeeee");
-    print(videoID);
     return YoutubePlayerBuilder(
       onExitFullScreen: () {
         // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
@@ -178,7 +170,7 @@ class _YoutubeVideoState extends State<YoutubeVideo> {
         onEnded: (data) {
           YoutubeVideo.controller!
               .load(_ids[(_ids.indexOf(data.videoId) + 1) % _ids.length]);
-          _showSnackBar('Next Video Started!');
+          // _showSnackBar('Next Video Started!');
         },
       ),
       builder: (context, player) {
@@ -287,7 +279,7 @@ class _YoutubeVideoState extends State<YoutubeVideo> {
             if (action == 'CUE') YoutubeVideo.controller!.cue(id);
             FocusScope.of(context).requestFocus(FocusNode());
           } else {
-            _showSnackBar('Source can\'t be empty!');
+            // _showSnackBar('Source can\'t be empty!');
           }
         }
             : null,
@@ -309,24 +301,24 @@ class _YoutubeVideoState extends State<YoutubeVideo> {
     );
   }
 
-  void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontWeight: FontWeight.w300,
-            fontSize: 16.0,
-          ),
-        ),
-        backgroundColor: Colors.blueAccent,
-        behavior: SnackBarBehavior.floating,
-        elevation: 1.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
-        ),
-      ),
-    );
-  }
+  // void _showSnackBar(String message) {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text(
+  //         message,
+  //         textAlign: TextAlign.center,
+  //         style: const TextStyle(
+  //           fontWeight: FontWeight.w300,
+  //           fontSize: 16.0,
+  //         ),
+  //       ),
+  //       backgroundColor: Colors.blueAccent,
+  //       behavior: SnackBarBehavior.floating,
+  //       elevation: 1.0,
+  //       shape: RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.circular(50.0),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
