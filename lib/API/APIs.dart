@@ -20,3 +20,5 @@ const String morningExpress = Base+"/ktn-news-category/videos/28/0/10";
 const String mostViewed = Base+"/ktn-news-popular/videos/newsvideos/0/10";
 
 const String worldNews = Base+"/ktn-news-category/videos/134/0/10";
+
+const String generateVideoId = "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCKVsdeoHExltrWMuK0hOWmg&eventType=live&type=video&key=AIzaSyBMn3_9OBylNWbgo4iCWdS4d49hSbKmiBg";

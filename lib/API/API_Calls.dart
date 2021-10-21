@@ -14,6 +14,7 @@ import 'APIs.dart';
 class APICalls {
   static List getVids=[];
   static String? theVideoURL;
+
   static Future<List<Videos>> getVideos(String detail) async {
     print(news+detail);
     try {
@@ -290,13 +291,40 @@ class APICalls {
     }
   }
 
+ static Future  getVideoId() async {
+
+    try {
+      var res = await http.get(Uri.parse(generateVideoId), headers: <String, String>{
+        "Authorization": "Bearer ",
+        "Accept": "application/json",
+        // "Content-Type": "application/json"
+      });
+      if (res.statusCode == 200) {
+        var jsonResponse = json.decode(res.body);
+        print("this is inside the video ID function -------------------------------");
+        print(jsonResponse['items'][0]['id']['videoId']);
+        print("this is inside the video ID function -------------------------------");
+        YoutubeVideo.theLiveStreamVideoId = jsonResponse['items'][0]['id']['videoId'];
+        print(YoutubeVideo.theLiveStreamVideoId);
+        print("above is what it is -------------------------------------------------");
+        return  jsonResponse['items'][0]['id']['videoId'];
+      } else {
+        print("Tafash");
+        throw Exception('Unexpected error occurred !');
+
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
 
 
 
 
   static Future refreshLiveStream(context) async {
     // print("in refresh");
-    return getVideos;
+    return APICalls.getVideoId();
   }
 }
 

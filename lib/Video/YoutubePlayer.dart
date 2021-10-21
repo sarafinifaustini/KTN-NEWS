@@ -20,6 +20,7 @@ class YoutubeVideo extends StatefulWidget {
   final Widget? child;
   final String? youTubeUrl;
  static String? youTubeTitle;
+ static String? theLiveStreamVideoId;
   static String? ID;
    static YoutubePlayerController? controller;
 
@@ -40,6 +41,7 @@ class _YoutubeVideoState extends State<YoutubeVideo> {
   double _volume = 100;
   bool _muted = false;
   bool _isPlayerReady = false;
+  var theLiveStreamVideoId = APICalls.getVideoId();
   String videoId = YoutubePlayer.convertUrlToId("https://www.youtube.com/embed/live_stream?channel=UCKVsdeoHExltrWMuK0hOWmg")!;
 
   final List<String> _ids = [
@@ -50,19 +52,37 @@ class _YoutubeVideoState extends State<YoutubeVideo> {
   @override
   void initState() {
     super.initState();
-    print(videoId);
-    YoutubeVideo.controller = YoutubePlayerController(
-      initialVideoId: 'L-uY64YQXIY',
-      flags: const YoutubePlayerFlags(
-        mute: false,
-        autoPlay: true,
-        disableDragSeek: false,
-        loop: false,
-        isLive: false,
-        forceHD: false,
-        enableCaption: true,
-      ),
-    )..addListener(listener);
+print("inside the youtube video whatever-------------------");
+    print(YoutubeVideo.theLiveStreamVideoId);
+    if(YoutubeVideo.theLiveStreamVideoId == null){
+      YoutubeVideo.controller = YoutubePlayerController(
+        initialVideoId: 'L-uY64YQXIY',
+        flags: const YoutubePlayerFlags(
+          mute: false,
+          autoPlay: true,
+          disableDragSeek: false,
+          loop: false,
+          isLive: false,
+          forceHD: true,
+          enableCaption: true,
+        ),
+      )..addListener(listener);
+    }
+    else {
+      YoutubeVideo.controller = YoutubePlayerController(
+        initialVideoId: YoutubeVideo.theLiveStreamVideoId!,
+        flags: const YoutubePlayerFlags(
+          mute: false,
+          autoPlay: true,
+          disableDragSeek: false,
+          loop: false,
+          isLive: false,
+          forceHD: true,
+          enableCaption: true,
+        ),
+      )
+        ..addListener(listener);
+    }
     _idController = TextEditingController();
     _seekToController = TextEditingController();
     _videoMetaData = const YoutubeMetaData();

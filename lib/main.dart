@@ -7,6 +7,7 @@ import 'package:ktn_news/GA/dialogManager.dart';
 import 'package:ktn_news/Screens/LandingPage.dart';
 import 'package:ktn_news/Screens/LifeCycleManager.dart';
 import 'package:ktn_news/SplashScreen.dart';
+import 'package:ktn_news/Video/MainWebView.dart';
 import 'package:provider/provider.dart';
 import 'GA/Google_analytics.dart';
 import 'GA/locator.dart';
@@ -77,6 +78,7 @@ class MyApp extends StatelessWidget {
                       //print("change language");
                       return locale;
                     },
+                    // home:App(),
                     home:Splash(),
                      onGenerateRoute: router.generateRoute,
                     // initialRoute: HomeViewRoute,
@@ -86,3 +88,77 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+// import 'package:flutter/material.dart';
+// import 'liveStreamVideo/Page/basics_page.dart';
+// import 'liveStreamVideo/Page/orientation_page.dart';
+//
+// final urlLandscapeVideo =
+//     'https://www.youtube.com/embed/live_stream?channel=UCKVsdeoHExltrWMuK0hOWmg&rel=0&autoplay=1';
+// final urlPortraitVideo =
+//     'https://assets.mixkit.co/videos/preview/mixkit-a-girl-blowing-a-bubble-gum-at-an-amusement-park-1226-large.mp4';
+// final urlYoutubeVideo = 'https://www.youtube.com/watch?v=wuh6YqcQgmM';
+//
+// void main() => runApp(MyApp());
+//
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) => MaterialApp(
+//     debugShowCheckedModeBanner: false,
+//     title: 'Video Player',
+//     theme: ThemeData(
+//       primaryColor: Colors.blueAccent,
+//       scaffoldBackgroundColor: Colors.black,
+//       visualDensity: VisualDensity.adaptivePlatformDensity,
+//       colorScheme: ColorScheme.dark(),
+//     ),
+//     home: MainPage(),
+//   );
+// }
+//
+// class MainPage extends StatefulWidget {
+//   @override
+//   _MainPageState createState() => _MainPageState();
+// }
+//
+// class _MainPageState extends State<MainPage> {
+//   int index = 0;
+//
+//   @override
+//   Widget build(BuildContext context) => Scaffold(
+//     // bottomNavigationBar: buildBottomBar(),
+//     body: OrientationPage(),
+//   );
+//
+//   Widget buildBottomBar() {
+//     final style = TextStyle(color: Colors.white);
+//
+//     return BottomNavigationBar(
+//       backgroundColor: Theme.of(context).primaryColor,
+//       selectedItemColor: Colors.white,
+//       unselectedItemColor: Colors.white70,
+//       currentIndex: index,
+//       items: [
+//         BottomNavigationBarItem(
+//           icon: Text('VideoPlayer', style: style),
+//           title: Text('Basics'),
+//         ),
+//         BottomNavigationBarItem(
+//           icon: Text('VideoPlayer', style: style),
+//           title: Text('Orientation'),
+//         ),
+//       ],
+//       onTap: (int index) => setState(() => this.index = index),
+//     );
+//   }
+//
+//   Widget buildPages() {
+//     switch (index) {
+//       case 0:
+//         return BasicsPage();
+//       case 1:
+//         return OrientationPage();
+//       default:
+//         return Container();
+//     }
+//   }
+// }

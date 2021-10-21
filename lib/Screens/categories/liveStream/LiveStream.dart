@@ -404,6 +404,7 @@ class _LiveStreamPageState extends State<LiveStreamPage>  with AutomaticKeepAliv
   void initState() {
     super.initState();
     getVideos();
+    APICalls.getVideoId();
     controller.addListener((onScroll));
     APICalls.refreshLiveStream(context);
 
@@ -466,6 +467,26 @@ class _LiveStreamPageState extends State<LiveStreamPage>  with AutomaticKeepAliv
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+
+                            // Align(
+                            //   alignment: Alignment.center,
+                            //   child: Card(
+                            //     child: FlatButton(onPressed: () {
+                            //       Navigator.push(
+                            //           context,
+                            //           MaterialPageRoute(
+                            //               builder: (_) {
+                            //                 return AllMoreVideos(theDetail: "/ktn-news/videos/1/0/");
+                            //               }));
+                            //     },
+                            //       child: Row(
+                            //         children: [
+                            //           Icon(Icons.live_tv),
+                            //           Text("Watch Live"),
+                            //         ],
+                            //       ),),
+                            //   ),
+                            // ),
                             SizedBox(
                               height: 8,
                             ),
