@@ -45,18 +45,19 @@ class _YoutubeVideoState extends State<YoutubeVideo> {
   String videoId = YoutubePlayer.convertUrlToId("https://www.youtube.com/embed/live_stream?channel=UCKVsdeoHExltrWMuK0hOWmg")!;
 
   final List<String> _ids = [
-    'L-uY64YQXIY',
-    'L-uY64YQXIY',
+    'a8aOmAlRdnE',
+    'a8aOmAlRdnE',
   ];
 
   @override
   void initState() {
     super.initState();
 print("inside the youtube video whatever-------------------");
-    print(YoutubeVideo.theLiveStreamVideoId);
+    // YoutubeVideo.controller!.pause();
+print(YoutubeVideo.theLiveStreamVideoId);
     if(YoutubeVideo.theLiveStreamVideoId == null){
       YoutubeVideo.controller = YoutubePlayerController(
-        initialVideoId: 'L-uY64YQXIY',
+        initialVideoId: "a8aOmAlRdnE",
         flags: const YoutubePlayerFlags(
           mute: false,
           autoPlay: true,
@@ -71,6 +72,7 @@ print("inside the youtube video whatever-------------------");
     else {
       YoutubeVideo.controller = YoutubePlayerController(
         initialVideoId: YoutubeVideo.theLiveStreamVideoId!,
+        // initialVideoId: "U3ASj1L6_sY",
         flags: const YoutubePlayerFlags(
           mute: false,
           autoPlay: true,
@@ -106,13 +108,13 @@ print("inside the youtube video whatever-------------------");
     super.deactivate();
   }
 
-  // @override
-  // void dispose() {
-  //   YoutubeVideo.controller!.dispose();
-  //   _idController.dispose();
-  //   _seekToController.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    YoutubeVideo.controller!.pause();
+    _idController.dispose();
+    _seekToController.dispose();
+    super.dispose();
+  }
 
 
   @override
@@ -129,60 +131,6 @@ print("inside the youtube video whatever-------------------");
         progressIndicatorColor: Colors.blueAccent,
         topActions: <Widget>[
           const SizedBox(width: 8.0),
-          // Expanded(
-          //   child:  AnimatedContainer(
-          //     duration: Duration(milliseconds: 0),
-          //     curve: Curves.bounceInOut,
-          //     color: Colors.transparent,
-          //     height: 60,
-          //     width: double.infinity,
-          //     child: Column(
-          //       children: [
-          //         Align(
-          //             alignment: Alignment.bottomLeft,
-          //             child: Column(
-          //               children: [
-          //                 Text(
-          //                   "",
-          //                   style: CustomTextStyle.display3(
-          //                       context),
-          //                 ),
-          //               ],
-          //             )),
-          //         Flexible(
-          //           child: Text(
-          //             YoutubeVideo.controller!.metadata.title,
-          //             style: CustomTextStyle.ytCaption(context),
-          //             overflow: TextOverflow.ellipsis,
-          //             maxLines: 2,
-          //           ),
-          //
-          //         )
-          //       ],
-          //     ),
-          //   ),
-          //   //
-          //   //
-          //   // Text(
-          //   //   YoutubeVideo.controller!.metadata.title,
-          //   //   style: const TextStyle(
-          //   //     color: Colors.white,
-          //   //     fontSize: 18.0,
-          //   //   ),
-          //   //   overflow: TextOverflow.ellipsis,
-          //   //   maxLines: 1,
-          //   // ),
-          // ),
-          // IconButton(
-          //   icon: const Icon(
-          //     Icons.share,
-          //     color: Colors.white,
-          //     size: 25.0,
-          //   ),
-          //   onPressed: () {
-          //     log('Settings Tapped!');
-          //   },
-          // ),
         ],
         onReady: () {
           _isPlayerReady = true;

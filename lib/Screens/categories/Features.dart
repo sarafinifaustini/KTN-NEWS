@@ -407,7 +407,10 @@ class _FeaturesPageState extends State<FeaturesPage>  with AutomaticKeepAliveCli
     APICalls.refreshLiveStream(context);
 
     print(FeaturesPage.playingVideo);
-
+    if(!this.mounted){
+      YoutubeVideo.controller!.pause();
+      print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<inside the news page");
+    }
   }
 
   onScroll() {
@@ -521,7 +524,7 @@ class _FeaturesPageState extends State<FeaturesPage>  with AutomaticKeepAliveCli
                                       context,
                                       MaterialPageRoute(
                                           builder: (_) {
-                                            return AllMoreVideos(theDetail: "/ktn-news/videos/23/0/");
+                                            return AllMoreVideos(theDetail: "/ktn-news/videos/23/0/",theTitle: "More Features Videos",);
                                           }));
                                 },
                                   child: Text("View All"),),
@@ -545,7 +548,7 @@ class _FeaturesPageState extends State<FeaturesPage>  with AutomaticKeepAliveCli
                                       context,
                                       MaterialPageRoute(
                                           builder: (_) {
-                                            return AllMoreVideos(theDetail:"/ktn-news-category/videos/134/0/");
+                                            return AllMoreVideos(theDetail:"/ktn-news-category/videos/134/0/", theTitle: "World News",);
                                           }));
                                 },
                                   child: Text("View All"),),
@@ -570,7 +573,7 @@ class _FeaturesPageState extends State<FeaturesPage>  with AutomaticKeepAliveCli
                                       context,
                                       MaterialPageRoute(
                                           builder: (_) {
-                                            return AllMoreVideos(theDetail: "/ktn-news-category/videos/2/0/",);
+                                            return AllMoreVideos(theDetail: "/ktn-news-category/videos/2/0/",theTitle: "KTN Mbiu",);
                                           }));
                                 },
                                   child: Text("View All"),),
@@ -596,7 +599,7 @@ class _FeaturesPageState extends State<FeaturesPage>  with AutomaticKeepAliveCli
                                       context,
                                       MaterialPageRoute(
                                           builder: (_) {
-                                            return AllMoreVideos(theDetail: "/ktn-news/videos/22/0/",);
+                                            return AllMoreVideos(theDetail: "/ktn-news/videos/22/0/",theTitle: "Business Today",);
                                           }));
                                 },
                                   child: Text("View All"),),
@@ -623,7 +626,7 @@ class _FeaturesPageState extends State<FeaturesPage>  with AutomaticKeepAliveCli
                                       context,
                                       MaterialPageRoute(
                                           builder: (_) {
-                                            return AllMoreVideos(theDetail: "/ktn-news-popular/videos/newsvideos/0/");
+                                            return AllMoreVideos(theDetail: "/ktn-news-popular/videos/newsvideos/0/",theTitle: "Most Viewed Videos",);
                                           }));
                                 },
                                   child: Text("View All"),),

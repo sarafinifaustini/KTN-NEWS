@@ -1,8 +1,11 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:ktn_news/API/API_Calls.dart';
 import 'package:ktn_news/Screens/LandingPage.dart';
 import 'package:custom_splash/custom_splash.dart';
 import 'package:page_transition/page_transition.dart';
+
+import 'Video/YoutubePlayer.dart';
 class Splash extends StatefulWidget {
   @override
   _SplashState createState() => new _SplashState();
@@ -15,7 +18,9 @@ class _SplashState extends State<Splash>  with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
+    APICalls.getVideoId();
+    print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<inside the splash screen");
+print(YoutubeVideo.theLiveStreamVideoId);
     _controller = AnimationController(
       // duration: Duration(seconds: 5),
       vsync: this,
@@ -50,22 +55,5 @@ class _SplashState extends State<Splash>  with TickerProviderStateMixin {
       outputAndHome: op,
     );
 
-
-    //   SplashScreen(
-    //     seconds: 5,
-    //     navigateAfterSeconds:LandingPage(),
-    //     title: new Text(
-    //       'SplashScreen Example',
-    //       style: new TextStyle(
-    //           fontWeight: FontWeight.bold,
-    //           fontSize: 20.0,
-    //           color: Colors.white),
-    //     ),
-    //     image: new Image.asset('assets/images/logo.png'),
-    //     photoSize: 100.0,
-    //     // backgroundColor: Colors.blue,
-    //     styleTextUnderTheLoader: new TextStyle(),
-    //     loaderColor: Colors.white
-    // );
   }
 }

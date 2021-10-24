@@ -5,7 +5,26 @@ import 'package:flutter/material.dart';
 import 'package:ktn_news/constants.dart';
 
 class CustomTextStyle {
-  static TextStyle display1(context) {
+  static TextStyle display0(context) {
+    return Theme
+        .of(context)
+        .textTheme
+        .display1!
+        .copyWith(fontSize: 16.0 ,color:myRed,fontWeight: FontWeight.bold);
+  }
+  static TextStyle display00(context) {
+    return Theme
+        .of(context)
+        .textTheme
+        .display1!
+        .copyWith(fontSize: 14.0 ,color:kPrimaryColor,fontWeight: FontWeight.bold);
+  } static TextStyle display01(context) {
+    return Theme
+        .of(context)
+        .textTheme
+        .display1!
+        .copyWith(fontSize: 14.0 ,color:myRed,fontWeight: FontWeight.bold);
+  } static TextStyle display1(context) {
     return Theme
         .of(context)
         .textTheme

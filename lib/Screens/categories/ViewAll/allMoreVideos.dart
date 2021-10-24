@@ -15,10 +15,10 @@ import '../../../constants.dart';
 
 
 class AllMoreVideos extends StatefulWidget {
-  static String theTitle = "The Eagle has landed";
+  final String theTitle;
   final String theDetail;
   static int? playingVideo;
-  const AllMoreVideos({Key? key, required this.theDetail}) : super(key: key);
+  const AllMoreVideos({Key? key, required this.theDetail, required this.theTitle}) : super(key: key);
 
   @override
   _AllMoreVideosState createState() => _AllMoreVideosState();
@@ -68,31 +68,63 @@ class _AllMoreVideosState extends State<AllMoreVideos> {
                   child: Shimmer.fromColors(
                     baseColor: Colors.grey[300]!,
                     highlightColor: Colors.grey[100]!,
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      physics: BouncingScrollPhysics(),
-                      itemCount: 20,
-                      itemBuilder: (BuildContext context, int index) =>
-                          dummyShimmer(),
+                    child: Container(
+
+                      child: Column(
+                        children: [
+                          FittedBox(
+                            child: dummyShimmer(),
+                          ),
+                          Container(
+                            height:size.height*0.7 ,
+                            child: GridView.builder(
+                                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                                    maxCrossAxisExtent: 200,
+                                    childAspectRatio: 1,
+                                    crossAxisSpacing: 2,
+                                    mainAxisSpacing: 20),
+                                itemCount: 8,
+                                itemBuilder: (BuildContext ctx, index) {
+                                  return dummyShimmer();
+                                }),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               );
             } else if (!snapshot.hasData) {
-              return SizedBox(
+            return SizedBox(
                 // width: double.infinity,
-                height: size.height,
+                height: size.height ,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Shimmer.fromColors(
                     baseColor: Colors.grey[300]!,
                     highlightColor: Colors.grey[100]!,
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      physics: BouncingScrollPhysics(),
-                      itemCount: 20,
-                      itemBuilder: (BuildContext context, int index) =>
-                          dummyShimmer(),
+                    child: Container(
+
+                      child: Column(
+                        children: [
+                          FittedBox(
+                            child: dummyShimmer(),
+                          ),
+                          Container(
+                            height:size.height*0.7 ,
+                            child: GridView.builder(
+                                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                                    maxCrossAxisExtent: 200,
+                                    childAspectRatio: 1,
+                                    crossAxisSpacing: 2,
+                                    mainAxisSpacing: 20),
+                                itemCount: 8,
+                                itemBuilder: (BuildContext ctx, index) {
+                                  return dummyShimmer();
+                                }),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -108,13 +140,11 @@ class _AllMoreVideosState extends State<AllMoreVideos> {
                           (BuildContext context, bool innerBoxIsScrolled) {
                         return [
                           SliverOverlapAbsorber(
-                              handle:
-                                  NestedScrollView.sliverOverlapAbsorberHandleFor(
+                              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                                       context),
                               sliver: SliverSafeArea(
                                   top: false,
                                   sliver: SliverAppBar(
-
                                       ///Properties of app bar
                                        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                                       floating: true,
@@ -126,7 +156,7 @@ class _AllMoreVideosState extends State<AllMoreVideos> {
                                               Theme.of(context).backgroundColor,
                                           tabs: [
                                             Tab(
-                                              text: "KTN Prime",
+                                              text: widget.theTitle,
                                             ),
                                             // Tab(text: "Popular Shows")
                                           ])))),
