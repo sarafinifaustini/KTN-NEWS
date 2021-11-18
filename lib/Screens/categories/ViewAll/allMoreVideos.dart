@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:ktn_news/API/API_Calls.dart';
 import 'package:ktn_news/Fonts/fonts.dart';
 import 'package:ktn_news/Screens/categories/News/News.dart';
+import 'package:ktn_news/Video/AllVideos.dart';
 import 'package:ktn_news/Video/YoutubePlayer.dart';
 import 'package:ktn_news/model/Category1.dart';
 import 'package:ktn_news/model/video.dart';
@@ -28,29 +29,6 @@ class _AllMoreVideosState extends State<AllMoreVideos> {
   Video? video;
 
 
-  refreshAction(theVideoId) {
-    setState(() async {
-      // APICalls.getVideo(NewsPage.playingVideo!);
-      print("here");
-      String videoURL =
-          "https://www.standardmedia.co.ke/farmkenya/api/ktn-home/video/$theVideoId";
-      try {
-        var result = await http.get(Uri.parse(videoURL));
-        if (result.statusCode == 200) {
-          Map<String, dynamic> data = jsonDecode(result.body)['video'];
-
-          YoutubeVideo.controller!.load("${data['videoURL']}");
-
-        } else {
-          print("problem in refresh Action");
-          throw Exception('Could not connect.');
-        }
-      } catch (e) {
-        throw e;
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     print(widget.theDetail);
@@ -66,8 +44,8 @@ class _AllMoreVideosState extends State<AllMoreVideos> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Shimmer.fromColors(
-                    baseColor: Colors.grey[300]!,
-                    highlightColor: Colors.grey[100]!,
+                    baseColor: Theme.of(context).primaryColorDark,
+                    highlightColor: Theme.of(context).primaryColorLight,
                     child: Container(
 
                       child: Column(
@@ -101,8 +79,8 @@ class _AllMoreVideosState extends State<AllMoreVideos> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Shimmer.fromColors(
-                    baseColor: Colors.grey[300]!,
-                    highlightColor: Colors.grey[100]!,
+                    baseColor: Theme.of(context).primaryColorDark,
+                    highlightColor: Theme.of(context).primaryColorLight,
                     child: Container(
 
                       child: Column(
@@ -131,7 +109,7 @@ class _AllMoreVideosState extends State<AllMoreVideos> {
               );
             } else if (snapshot.hasData) {
               List<Videos>? data = snapshot.data;
-              return YoutubeVideo(
+              return AllVideos(
                 child: Expanded(
                   child: DefaultTabController(
                     length: 1,
@@ -167,13 +145,13 @@ class _AllMoreVideosState extends State<AllMoreVideos> {
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             childAspectRatio: 1,
-                            mainAxisExtent: 150.0,
+                            mainAxisExtent: 200.0,
                           ),
                           delegate: SliverChildBuilderDelegate(
                             (BuildContext context, int index) {
                               return  GestureDetector(
                                 onTap: () {
-                                  print("tapped");
+                                  print("tapped====================================================");
                                   setState(() {
                                     print(NewsPage.playingTitle);
                                     NewsPage.playingTitle ="";
@@ -181,7 +159,10 @@ class _AllMoreVideosState extends State<AllMoreVideos> {
                                         data![index].title;
                                     NewsPage.playingVideo = null;
                                     NewsPage.playingVideo= data[index].id;
-                                    refreshAction(NewsPage.playingVideo);
+                                    print(data[index].videoURL);
+                                    AllVideos.controller!.load(data[index].videoURL!);
+                                    print(NewsPage.playingVideo);
+                                    // refreshAction(NewsPage.playingVideo);
 
                                   });
                                 },
@@ -256,13 +237,13 @@ class _AllMoreVideosState extends State<AllMoreVideos> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        width: size.width * 0.7,
+        width: size.width * 0.9,
         child: Column(
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
               width: size.width,
-              height: 160,
+              height: 180,
               color: Colors.white,
             ),
             const Padding(
@@ -274,8 +255,8 @@ class _AllMoreVideosState extends State<AllMoreVideos> {
             Align(
               alignment: Alignment.bottomLeft,
               child: Container(
-                width: size.width * 0.7,
-                height: 8.0,
+                width: size.width * 0.75,
+                height: 7.0,
                 color: Colors.white,
               ),
             ),
@@ -286,7 +267,7 @@ class _AllMoreVideosState extends State<AllMoreVideos> {
               alignment: Alignment.bottomLeft,
               child: Container(
                 width: size.width * 0.5,
-                height: 8.0,
+                height: 7.0,
                 color: Colors.white,
               ),
             ),

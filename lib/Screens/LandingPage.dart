@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui';
+import 'package:ktn_news/Video/WebView.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:ktn_news/Fonts/fonts.dart';
@@ -27,7 +28,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 class LandingPage extends StatefulWidget {
   static int landingPageIndex = 0;
   static String? videoID;
-
+  static String? initialVideoURl;
   @override
   _LandingPageState createState() => _LandingPageState();
 }
@@ -81,11 +82,11 @@ class _LandingPageState extends State<LandingPage> {
 
   int _currentIndex = LandingPage.landingPageIndex;
   final bottomNavigationItems = [
-    BottomNavigationBarItem(
-      icon: Icon(Icons.live_tv),
-      label: "Live",
-    ),
-    BottomNavigationBarItem(
+    // BottomNavigationBarItem(
+    //   icon: Icon(Icons.live_tv),
+    //   label: "Live",
+    // ),
+      BottomNavigationBarItem(
         icon: Icon(FontAwesomeIcons.newspaper), label: "News"),
     BottomNavigationBarItem(
         icon: Icon(FontAwesomeIcons.star), label: "Features"),
@@ -98,25 +99,26 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // if (hasInternet == false) {
-    //   return Scaffold(
-    //     body: Center(
-    //       child: FittedBox(
-    //         child: Column(
-    //           children: [
-    //             LottieBuilder.asset(
-    //               "assets/animation/int.json",
-    //               repeat: true,
-    //             ),
-    //             Text("Check your Internet Connection",
-    //                 style: CustomTextStyle.display2(context)),
-    //           ],
-    //         ),
-    //       ),
-    //     ),
-    //   );
-    // } else
-      return OverlaySupport.global(
+    if (hasInternet == false) {
+      return Scaffold(
+        body: Center(
+          child: FittedBox(
+            child: Column(
+              children: [
+                LottieBuilder.asset(
+                  "assets/animation/int.json",
+                  repeat: true,
+                ),
+                Text("Check your Internet Connection",
+                    style: CustomTextStyle.display2(context)),
+              ],
+            ),
+          ),
+        ),
+      );
+    } else
+      return
+        OverlaySupport.global(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
@@ -128,7 +130,41 @@ class _LandingPageState extends State<LandingPage> {
                   // height: size.height * 0.08,
                   child: Image.asset("assets/images/logo.png")),
             ),
+
             actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: size.height,
+                      decoration: BoxDecoration(
+                          color: myRed,
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Center(
+                        child: FlatButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return WebViewContainer("https://www.youtube.com/embed/live_stream?channel=UCKVsdeoHExltrWMuK0hOWmg&rel=0&autoplay=1");
+                                }),
+                              );
+                            },
+                            child: Text(
+                              'Watch Live',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            )
+                          //
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ],
           ),
           body: PageView(
@@ -140,7 +176,7 @@ class _LandingPageState extends State<LandingPage> {
               });
             },
             children: [
-              LiveStreamPage(),
+               // LiveStreamPage(),
               NewsPage(),
               FeaturesPage(),
               SportsPage(),

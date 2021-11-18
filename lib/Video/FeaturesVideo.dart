@@ -16,22 +16,22 @@ import '../Screens/categories/liveStream/moreVideos.dart';
 import '../Screens/categories/liveStream/worldNews.dart';
 import '../model/Category1.dart';
 /// Homepage
-class YoutubeVideo extends StatefulWidget {
+class FeaturesVideo extends StatefulWidget {
   final Widget? child;
   final String? youTubeUrl;
- static String? youTubeTitle;
- static String? theLiveStreamVideoId;
+  static String? youTubeTitle;
+  static String? theLiveStreamVideoId;
   static String? ID;
-   static YoutubePlayerController? controller;
+  static YoutubePlayerController? controller;
 
-  const YoutubeVideo({Key? key, this.youTubeUrl, this.child,}) : super(key: key);
+  const FeaturesVideo({Key? key, this.youTubeUrl, this.child,}) : super(key: key);
 
 
   @override
-  _YoutubeVideoState createState() => _YoutubeVideoState();
+  _FeaturesVideoState createState() => _FeaturesVideoState();
 }
 
-class _YoutubeVideoState extends State<YoutubeVideo> {
+class _FeaturesVideoState extends State<FeaturesVideo> {
 
   late TextEditingController _idController;
   late TextEditingController _seekToController;
@@ -53,10 +53,42 @@ class _YoutubeVideoState extends State<YoutubeVideo> {
   @override
   void initState() {
     super.initState();
-print("inside the youtube video whatever-------------------");
-      YoutubeVideo.controller = YoutubePlayerController(
-        initialVideoId: LandingPage.initialVideoURl!,
-         // initialVideoId: "a8aOmAlRdnE",
+    print("inside the youtube video whatever-------------------");
+    // YoutubeVideo.controller!.pause();
+    print(FeaturesVideo.theLiveStreamVideoId);
+    if(FeaturesVideo.theLiveStreamVideoId != null){
+      theId = FeaturesVideo.theLiveStreamVideoId;
+      print("first >>>>>>>>>>>>>>>>>>>>>>>");
+      print(theId);
+    }
+    else if(theId != FeaturesVideo.theLiveStreamVideoId){
+      theId = FeaturesVideo.theLiveStreamVideoId;
+      print("second >>>>>>>>>>>>>>>>>>>>>>>");
+      print(FeaturesVideo.theLiveStreamVideoId);
+      print("second2 >>>>>>>>>>>>>>>>>>>>>>>");
+      print(theId);
+    }
+
+    if(FeaturesVideo.theLiveStreamVideoId == null){
+      print("video Id Is null?????????????????????????????????????????????????");
+      FeaturesVideo.controller = YoutubePlayerController(
+        initialVideoId: "5useqU-NK50",
+        flags: const YoutubePlayerFlags(
+          mute: false,
+          autoPlay: true,
+          disableDragSeek: false,
+          loop: false,
+          isLive: false,
+          forceHD: true,
+          enableCaption: true,
+        ),
+      )..addListener(listener);
+    }
+    else {
+      print("video Id is not null");
+      FeaturesVideo.controller = YoutubePlayerController(
+        initialVideoId: FeaturesVideo.theLiveStreamVideoId!,
+        // initialVideoId: "a8aOmAlRdnE",
         flags: const YoutubePlayerFlags(
           mute: false,
           autoPlay: true,
@@ -68,7 +100,7 @@ print("inside the youtube video whatever-------------------");
         ),
       )
         ..addListener(listener);
-
+    }
     _idController = TextEditingController();
     _seekToController = TextEditingController();
     _videoMetaData = const YoutubeMetaData();
@@ -76,11 +108,11 @@ print("inside the youtube video whatever-------------------");
   }
 
   void listener() {
-    if (_isPlayerReady && mounted && !YoutubeVideo.controller!.value.isFullScreen) {
+    if (_isPlayerReady && mounted && !FeaturesVideo.controller!.value.isFullScreen) {
       setState(() {
-        YoutubeVideo.youTubeTitle=YoutubeVideo.controller!.metadata.title;
-        _playerState =YoutubeVideo.controller!.value.playerState;
-        _videoMetaData =YoutubeVideo.controller!.metadata;
+        FeaturesVideo.youTubeTitle=FeaturesVideo.controller!.metadata.title;
+        _playerState =FeaturesVideo.controller!.value.playerState;
+        _videoMetaData =FeaturesVideo.controller!.metadata;
       });
     }
   }
@@ -88,13 +120,13 @@ print("inside the youtube video whatever-------------------");
   @override
   void deactivate() {
     // Pauses video while navigating to next page.
-    YoutubeVideo.controller!.pause();
+    FeaturesVideo.controller!.pause();
     super.deactivate();
   }
 
   @override
   void dispose() {
-    YoutubeVideo.controller!.pause();
+    FeaturesVideo.controller!.pause();
     _idController.dispose();
     _seekToController.dispose();
     super.dispose();
@@ -107,10 +139,10 @@ print("inside the youtube video whatever-------------------");
     return YoutubePlayerBuilder(
       onExitFullScreen: () {
         // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
-         SystemChrome.setPreferredOrientations(DeviceOrientation.values);
+        SystemChrome.setPreferredOrientations(DeviceOrientation.values);
       },
       player: YoutubePlayer(
-        controller: YoutubeVideo.controller!,
+        controller: FeaturesVideo.controller!,
         showVideoProgressIndicator: true,
         progressIndicatorColor: Colors.blueAccent,
         topActions: <Widget>[
@@ -120,53 +152,53 @@ print("inside the youtube video whatever-------------------");
           _isPlayerReady = true;
         },
         onEnded: (data) {
-          YoutubeVideo.controller!
-              .load(APICalls.theVideoList![(APICalls.theVideoList!.indexOf(data.videoId) + 1) % APICalls.theVideoList!.length]);
+          FeaturesVideo.controller!
+              .load(_ids[(_ids.indexOf(data.videoId) + 1) % _ids.length]);
           // _showSnackBar('Next Video Started!');
         },
       ),
       builder: (context, player) {
         return  SafeArea(
           child: Column(
-              children: [
-                player,
-                AnimatedContainer(
-                  duration: Duration(milliseconds: 0),
-                  curve: Curves.bounceInOut,
-                  color: Colors.grey[900],
-                  height: 60,
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left:8.0,right: 8.0),
-                    child: Column(
-                      children: [
-                        Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Column(
-                              children: [
-                                Text(
-                                  "NOW PLAYING",
-                                  style: CustomTextStyle.display3(
-                                      context),
-                                ),
-                              ],
-                            )),
-                        Flexible(
-                          child: Text(
-                            YoutubeVideo.controller!.metadata.title,
-                            style: CustomTextStyle.display4(context),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                          ),
+            children: [
+              player,
+              AnimatedContainer(
+                duration: Duration(milliseconds: 0),
+                curve: Curves.bounceInOut,
+                color: Colors.grey[900],
+                height: 60,
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.only(left:8.0,right: 8.0),
+                  child: Column(
+                    children: [
+                      Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Column(
+                            children: [
+                              Text(
+                                "NOW PLAYING",
+                                style: CustomTextStyle.display3(
+                                    context),
+                              ),
+                            ],
+                          )),
+                      Flexible(
+                        child: Text(
+                          FeaturesVideo.controller!.metadata.title,
+                          style: CustomTextStyle.display4(context),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
 
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                 ),
-          widget.child!,
-              ],
-            ),
+              ),
+              widget.child!,
+            ],
+          ),
         );
       },
     );
@@ -227,8 +259,8 @@ print("inside the youtube video whatever-------------------");
               _idController.text,
             ) ??
                 '';
-            if (action == 'LOAD')YoutubeVideo.controller!.load(id);
-            if (action == 'CUE') YoutubeVideo.controller!.cue(id);
+            if (action == 'LOAD')FeaturesVideo.controller!.load(id);
+            if (action == 'CUE') FeaturesVideo.controller!.cue(id);
             FocusScope.of(context).requestFocus(FocusNode());
           } else {
             // _showSnackBar('Source can\'t be empty!');
@@ -253,24 +285,4 @@ print("inside the youtube video whatever-------------------");
     );
   }
 
-  // void _showSnackBar(String message) {
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     SnackBar(
-  //       content: Text(
-  //         message,
-  //         textAlign: TextAlign.center,
-  //         style: const TextStyle(
-  //           fontWeight: FontWeight.w300,
-  //           fontSize: 16.0,
-  //         ),
-  //       ),
-  //       backgroundColor: Colors.blueAccent,
-  //       behavior: SnackBarBehavior.floating,
-  //       elevation: 1.0,
-  //       shape: RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.circular(50.0),
-  //       ),
-  //     ),
-  //   );
-  // }
 }

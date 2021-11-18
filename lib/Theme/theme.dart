@@ -61,9 +61,9 @@ class MyThemes {
     backgroundColor: myRed,
     colorScheme: ColorScheme.dark(),
 
-    primaryColorDark: Colors.black,
+    primaryColorDark: Colors.white10,
     canvasColor: myRed,
-    primaryColorLight:myRed,
+    primaryColorLight:Colors.grey[500],
     textSelectionColor: Colors.white,
     shadowColor: Colors.black,
 
@@ -94,8 +94,8 @@ class MyThemes {
     backgroundColor: kPrimaryColor,
     scaffoldBackgroundColor: Colors.white,
     primaryColor: themeWhite,
-    primaryColorDark: kPrimaryColor,
-    primaryColorLight:kPrimaryColor,
+    primaryColorDark: Colors.grey[300],
+    primaryColorLight:Colors.grey[100],
     colorScheme: ColorScheme.light(),
     focusColor: Colors.black,
     dividerColor: kPrimaryColor,

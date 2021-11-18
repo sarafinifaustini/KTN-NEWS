@@ -8,30 +8,23 @@ import 'package:ktn_news/Fonts/fonts.dart';
 import 'package:ktn_news/Screens/LandingPage.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import '../Screens/categories/ViewAll/allMoreVideos.dart';
-import '../Screens/categories/liveStream/KTN_Business.dart';
-import '../Screens/categories/liveStream/MostViewed.dart';
-import '../Screens/categories/liveStream/ktn_leo.dart';
-import '../Screens/categories/liveStream/moreVideos.dart';
-import '../Screens/categories/liveStream/worldNews.dart';
-import '../model/Category1.dart';
 /// Homepage
-class YoutubeVideo extends StatefulWidget {
+class AllVideos extends StatefulWidget {
   final Widget? child;
   final String? youTubeUrl;
- static String? youTubeTitle;
- static String? theLiveStreamVideoId;
+  static String? youTubeTitle;
+  static String? theLiveStreamVideoId;
   static String? ID;
-   static YoutubePlayerController? controller;
+  static YoutubePlayerController? controller;
 
-  const YoutubeVideo({Key? key, this.youTubeUrl, this.child,}) : super(key: key);
+  const AllVideos({Key? key, this.youTubeUrl, this.child,}) : super(key: key);
 
 
   @override
-  _YoutubeVideoState createState() => _YoutubeVideoState();
+  _AllVideosState createState() => _AllVideosState();
 }
 
-class _YoutubeVideoState extends State<YoutubeVideo> {
+class _AllVideosState extends State<AllVideos> {
 
   late TextEditingController _idController;
   late TextEditingController _seekToController;
@@ -53,10 +46,10 @@ class _YoutubeVideoState extends State<YoutubeVideo> {
   @override
   void initState() {
     super.initState();
-print("inside the youtube video whatever-------------------");
-      YoutubeVideo.controller = YoutubePlayerController(
+    print("inside the ALLvideo whatever-------------------");
+    // YoutubeVideo.controller!.pause();
+      AllVideos.controller = YoutubePlayerController(
         initialVideoId: LandingPage.initialVideoURl!,
-         // initialVideoId: "a8aOmAlRdnE",
         flags: const YoutubePlayerFlags(
           mute: false,
           autoPlay: true,
@@ -76,11 +69,11 @@ print("inside the youtube video whatever-------------------");
   }
 
   void listener() {
-    if (_isPlayerReady && mounted && !YoutubeVideo.controller!.value.isFullScreen) {
+    if (_isPlayerReady && mounted && !AllVideos.controller!.value.isFullScreen) {
       setState(() {
-        YoutubeVideo.youTubeTitle=YoutubeVideo.controller!.metadata.title;
-        _playerState =YoutubeVideo.controller!.value.playerState;
-        _videoMetaData =YoutubeVideo.controller!.metadata;
+        AllVideos.youTubeTitle=AllVideos.controller!.metadata.title;
+        _playerState =AllVideos.controller!.value.playerState;
+        _videoMetaData =AllVideos.controller!.metadata;
       });
     }
   }
@@ -88,13 +81,13 @@ print("inside the youtube video whatever-------------------");
   @override
   void deactivate() {
     // Pauses video while navigating to next page.
-    YoutubeVideo.controller!.pause();
+    AllVideos.controller!.pause();
     super.deactivate();
   }
 
   @override
   void dispose() {
-    YoutubeVideo.controller!.pause();
+    AllVideos.controller!.pause();
     _idController.dispose();
     _seekToController.dispose();
     super.dispose();
@@ -107,10 +100,10 @@ print("inside the youtube video whatever-------------------");
     return YoutubePlayerBuilder(
       onExitFullScreen: () {
         // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
-         SystemChrome.setPreferredOrientations(DeviceOrientation.values);
+        SystemChrome.setPreferredOrientations(DeviceOrientation.values);
       },
       player: YoutubePlayer(
-        controller: YoutubeVideo.controller!,
+        controller: AllVideos.controller!,
         showVideoProgressIndicator: true,
         progressIndicatorColor: Colors.blueAccent,
         topActions: <Widget>[
@@ -120,7 +113,7 @@ print("inside the youtube video whatever-------------------");
           _isPlayerReady = true;
         },
         onEnded: (data) {
-          YoutubeVideo.controller!
+          AllVideos.controller!
               .load(APICalls.theVideoList![(APICalls.theVideoList!.indexOf(data.videoId) + 1) % APICalls.theVideoList!.length]);
           // _showSnackBar('Next Video Started!');
         },
@@ -128,45 +121,45 @@ print("inside the youtube video whatever-------------------");
       builder: (context, player) {
         return  SafeArea(
           child: Column(
-              children: [
-                player,
-                AnimatedContainer(
-                  duration: Duration(milliseconds: 0),
-                  curve: Curves.bounceInOut,
-                  color: Colors.grey[900],
-                  height: 60,
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left:8.0,right: 8.0),
-                    child: Column(
-                      children: [
-                        Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Column(
-                              children: [
-                                Text(
-                                  "NOW PLAYING",
-                                  style: CustomTextStyle.display3(
-                                      context),
-                                ),
-                              ],
-                            )),
-                        Flexible(
-                          child: Text(
-                            YoutubeVideo.controller!.metadata.title,
-                            style: CustomTextStyle.display4(context),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                          ),
+            children: [
+              player,
+              AnimatedContainer(
+                duration: Duration(milliseconds: 0),
+                curve: Curves.bounceInOut,
+                color: Colors.grey[900],
+                height: 60,
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.only(left:8.0,right: 8.0),
+                  child: Column(
+                    children: [
+                      Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Column(
+                            children: [
+                              Text(
+                                "NOW PLAYING",
+                                style: CustomTextStyle.display3(
+                                    context),
+                              ),
+                            ],
+                          )),
+                      Flexible(
+                        child: Text(
+                          AllVideos.controller!.metadata.title,
+                          style: CustomTextStyle.display4(context),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
 
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                 ),
-          widget.child!,
-              ],
-            ),
+              ),
+              widget.child!,
+            ],
+          ),
         );
       },
     );
@@ -227,8 +220,8 @@ print("inside the youtube video whatever-------------------");
               _idController.text,
             ) ??
                 '';
-            if (action == 'LOAD')YoutubeVideo.controller!.load(id);
-            if (action == 'CUE') YoutubeVideo.controller!.cue(id);
+            if (action == 'LOAD')AllVideos.controller!.load(id);
+            if (action == 'CUE') AllVideos.controller!.cue(id);
             FocusScope.of(context).requestFocus(FocusNode());
           } else {
             // _showSnackBar('Source can\'t be empty!');
@@ -253,24 +246,4 @@ print("inside the youtube video whatever-------------------");
     );
   }
 
-  // void _showSnackBar(String message) {
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     SnackBar(
-  //       content: Text(
-  //         message,
-  //         textAlign: TextAlign.center,
-  //         style: const TextStyle(
-  //           fontWeight: FontWeight.w300,
-  //           fontSize: 16.0,
-  //         ),
-  //       ),
-  //       backgroundColor: Colors.blueAccent,
-  //       behavior: SnackBarBehavior.floating,
-  //       elevation: 1.0,
-  //       shape: RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.circular(50.0),
-  //       ),
-  //     ),
-  //   );
-  // }
 }

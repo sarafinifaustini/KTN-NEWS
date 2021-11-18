@@ -711,7 +711,8 @@ class _LiveStreamPageState extends State<LiveStreamPage>  with AutomaticKeepAliv
     // NewsPage.playingVideo = mainVideos[0]['id'];
     return RefreshIndicator(
         onRefresh: () => APICalls.refreshLiveStream(context),
-        child: YoutubeVideo(
+        child: Container(
+
           child: Expanded(
             child: Container(
                 color: Theme.of(context).scaffoldBackgroundColor,
@@ -727,6 +728,14 @@ class _LiveStreamPageState extends State<LiveStreamPage>  with AutomaticKeepAliv
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            IconButton(onPressed: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return WebViewContainer("https://www.youtube.com/embed/live_stream?channel=UCKVsdeoHExltrWMuK0hOWmg&rel=0&autoplay=1");
+                                }),
+                              );
+                            }, icon: Icon(FontAwesomeIcons.briefcase)),
                             SizedBox(
                               height: 2,
                             ),

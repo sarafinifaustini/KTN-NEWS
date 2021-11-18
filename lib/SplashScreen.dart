@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ktn_news/API/API_Calls.dart';
 import 'package:ktn_news/Screens/LandingPage.dart';
 import 'package:custom_splash/custom_splash.dart';
+import 'package:ktn_news/Screens/categories/News/News.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'Video/YoutubePlayer.dart';
@@ -20,7 +21,8 @@ class _SplashState extends State<Splash>  with TickerProviderStateMixin {
     super.initState();
     APICalls.getVideoId();
     print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<inside the splash screen");
-print(YoutubeVideo.theLiveStreamVideoId);
+    //gets the default video ID to be played when app starts
+    APICalls.getVideos("/ktn-news/videos/23/0/20");
     _controller = AnimationController(
       // duration: Duration(seconds: 5),
       vsync: this,
@@ -47,7 +49,7 @@ print(YoutubeVideo.theLiveStreamVideoId);
       backGroundColor:Theme.of(context).scaffoldBackgroundColor,
       // backGroundColor: Color(0xfffc6042),
       animationEffect: 'zoom-in',
-      logoSize: 200,
+      logoSize: 180,
       home: LandingPage(),
       customFunction: duringSplash,
       duration: 2500,

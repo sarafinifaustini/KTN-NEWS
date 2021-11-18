@@ -516,7 +516,7 @@ class _BusinessPageState extends State<BusinessPage>  with AutomaticKeepAliveCli
                             SizedBox(
                               height: 2,
                             ),
-                            MoreVideosPage(theDetail: "/ktn-news/videos/22/0/20",),
+                            MoreVideosPage(theDetail: "/ktn-news/videos/22/0/20",theIndex: 4,),
                             Align(
                               alignment: Alignment.center,
                               child: Card(
@@ -525,7 +525,7 @@ class _BusinessPageState extends State<BusinessPage>  with AutomaticKeepAliveCli
                                       context,
                                       MaterialPageRoute(
                                           builder: (_) {
-                                            return AllMoreVideos(theDetail: "/ktn-news/videos/23/0/", theTitle: "More Business Videos",);
+                                            return AllMoreVideos(theDetail: "/ktn-news/videos/22/0/", theTitle: "More Business Videos",);
                                           }));
                                 },
                                   child: Text("View All"),),

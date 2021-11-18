@@ -461,33 +461,6 @@ class _FeaturesPageState extends State<FeaturesPage>  with AutomaticKeepAliveCli
             child: Container(
                 color: Theme.of(context).scaffoldBackgroundColor,
                 child:
-                // FutureBuilder<List<Videos>>(
-                //     future: APICalls.getVideos("/videos/23/0/20"),
-                //     builder: (context, snapshot) {
-                //       if (snapshot.hasError) {
-                //         return Center(
-                //           child: SizedBox(
-                //             width: 200.0,
-                //             height: 100.0,
-                //             child: Shimmer.fromColors(
-                //               baseColor: Colors.red,
-                //               highlightColor: Colors.yellow,
-                //               child: Text(
-                //                 'Shimmer',
-                //                 textAlign: TextAlign.center,
-                //                 style: TextStyle(
-                //                   fontSize: 40.0,
-                //                   fontWeight:
-                //                   FontWeight.bold,
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //         );
-                //       }
-                //       if (snapshot.hasData) {
-                //         List<Videos>? data = snapshot.data;
-                //         return
                 SingleChildScrollView(
                   // physics: const NeverScrollableScrollPhysics(),
                     physics: BouncingScrollPhysics(),
@@ -515,7 +488,7 @@ class _FeaturesPageState extends State<FeaturesPage>  with AutomaticKeepAliveCli
                             SizedBox(
                               height: 2,
                             ),
-                            MoreVideosPage(theDetail: "/ktn-news/videos/13/0/20",),
+                            MoreVideosPage(theDetail: "/ktn-news/videos/13/0/20",theIndex: 2,),
                             Align(
                               alignment: Alignment.center,
                               child: Card(

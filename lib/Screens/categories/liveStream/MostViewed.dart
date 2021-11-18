@@ -66,8 +66,8 @@ class _MostViewedPageState extends State<MostViewedPage> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
+                  baseColor: Theme.of(context).primaryColorDark,
+                  highlightColor: Theme.of(context).primaryColorLight,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     physics: BouncingScrollPhysics(),
@@ -86,8 +86,8 @@ class _MostViewedPageState extends State<MostViewedPage> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
+                  baseColor: Theme.of(context).primaryColorDark,
+                  highlightColor: Theme.of(context).primaryColorLight,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     physics: BouncingScrollPhysics(),
@@ -120,13 +120,7 @@ class _MostViewedPageState extends State<MostViewedPage> {
                             print("tapped");
                             setState(() {
                               print(NewsPage.playingTitle);
-                              NewsPage.playingTitle ="";
-                              NewsPage.playingTitle =
-                                  data[index].title;
-                              NewsPage.playingVideo = null;
-                              NewsPage.playingVideo= data[index].id;
-                              refreshAction(NewsPage.playingVideo);
-
+                              YoutubeVideo.controller!.load(data[index].videoURL!);
                             });
 
 

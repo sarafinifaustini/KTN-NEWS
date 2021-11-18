@@ -64,8 +64,8 @@ class _WorldNewsPageState extends State<WorldNewsPage> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
+                  baseColor: Theme.of(context).primaryColorDark,
+                  highlightColor: Theme.of(context).primaryColorLight,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     physics: BouncingScrollPhysics(),
@@ -84,8 +84,8 @@ class _WorldNewsPageState extends State<WorldNewsPage> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
+                  baseColor: Theme.of(context).primaryColorDark,
+                  highlightColor: Theme.of(context).primaryColorLight,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     physics: BouncingScrollPhysics(),
@@ -114,25 +114,10 @@ class _WorldNewsPageState extends State<WorldNewsPage> {
                     itemBuilder: (context, index) =>
                         GestureDetector(
                           onTap: () {
-                            print("tapped");
+                            print("tapped World News");
                             setState(() {
-                              print(NewsPage.playingTitle);
-                              NewsPage.playingTitle ="";
-                              NewsPage.playingTitle =
-                                  data[index].title;
-                              NewsPage.playingVideo = null;
-                              NewsPage.playingVideo= data[index].id;
-                              refreshAction(NewsPage.playingVideo!);
-
-                            });
-
-
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (_) {
-                            //           return LandingPage();
-                            //         }));
+                              YoutubeVideo.controller!.load(data[index].videoURL!);
+                                        });
                           },
                           child: FittedBox(
                             child: Card(

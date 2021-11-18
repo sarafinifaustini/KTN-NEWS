@@ -7,6 +7,10 @@ import 'package:flutter/widgets.dart';
 import 'package:ktn_news/API/API_Calls.dart';
 import 'package:ktn_news/API/APIs.dart';
 import 'package:ktn_news/Screens/categories/News/News.dart';
+import 'package:ktn_news/Video/BusinessVideo.dart';
+import 'package:ktn_news/Video/FeaturesVideo.dart';
+import 'package:ktn_news/Video/SportsVideo.dart';
+import 'package:ktn_news/Video/AllVideos.dart';
 import 'package:ktn_news/model/video.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -22,8 +26,9 @@ import '../../LandingPage.dart';
 
 class MoreVideosPage extends StatefulWidget {
   final String theDetail;
+  final int theIndex;
 
-  const MoreVideosPage({Key? key, required this.theDetail}) : super(key: key);
+  const MoreVideosPage({Key? key, required this.theDetail, required this.theIndex}) : super(key: key);
 
   @override
   _MoreVideosPageState createState() => _MoreVideosPageState();
@@ -36,9 +41,8 @@ class _MoreVideosPageState extends State<MoreVideosPage> {
 
   refreshAction(theVideoId) async {
 
-
-      // APICalls.getVideo(NewsPage.playingVideo!);
-      print("inside refresh");
+       print(NewsPage.playingVideo);
+      print("inside refresh>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>more vids");
       print(theVideoId);
       String videoURL =
           "https://www.standardmedia.co.ke/farmkenya/api/ktn-home/video/$theVideoId";
@@ -50,7 +54,23 @@ class _MoreVideosPageState extends State<MoreVideosPage> {
           print("--------------------------");
           print(data['videoURL']);
           setState(() {
-            YoutubeVideo.controller!.load("${data['videoURL']}");
+            if(widget.theIndex == 1) {
+              print("this is the first index");
+              AllVideos.controller!.load("${data['videoURL']}");
+            }
+            else if(widget.theIndex==2){
+              print("this is the second index");
+              YoutubeVideo.controller!.load("${data['videoURL']}");
+              FeaturesVideo.controller!.load("${data['videoURL']}");
+            }else if(widget.theIndex==3){
+              print("this is the third index");
+              YoutubeVideo.controller!.load("${data['videoURL']}");
+              SportsVideo.controller!.load("${data['videoURL']}");
+            }else{
+              print("this is the fourth index");
+              YoutubeVideo.controller!.load("${data['videoURL']}");
+              BusinessVideo.controller!.load("${data['videoURL']}");
+            }
           });
         } else {
           print("problem in refresh Action");
@@ -75,8 +95,8 @@ class _MoreVideosPageState extends State<MoreVideosPage> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
+                  baseColor: Theme.of(context).primaryColorDark,
+                  highlightColor: Theme.of(context).primaryColorLight,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     physics: BouncingScrollPhysics(),
@@ -95,8 +115,8 @@ class _MoreVideosPageState extends State<MoreVideosPage> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
+                  baseColor: Theme.of(context).primaryColorDark,
+                  highlightColor: Theme.of(context).primaryColorLight,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     physics: BouncingScrollPhysics(),

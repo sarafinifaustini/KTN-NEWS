@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:ktn_news/Screens/LandingPage.dart';
 import 'package:ktn_news/Screens/categories/News/News.dart';
+import 'package:ktn_news/Video/AllVideos.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:ktn_news/Video/WebView.dart';
 import 'package:ktn_news/Video/YoutubePlayer.dart';
@@ -14,9 +16,9 @@ import 'APIs.dart';
 class APICalls {
   static List getVids=[];
   static String? theVideoURL;
+  static List? theVideoList;
 
   static Future<List<Videos>> getVideos(String detail) async {
-    print(news+detail);
     try {
       final response = await http.get(Uri.parse(news+detail),
           headers: <String, String>{
@@ -25,7 +27,19 @@ class APICalls {
           });
       if (response.statusCode == 200) {
         List jsonResponse = json.decode(response.body)['videos'];
+         print(jsonResponse);
+
         NewsPage.playingVideo = jsonResponse[0]['id'];
+        print("inside getVideos========================================================================");
+        print(NewsPage.playingVideo);
+        print(jsonResponse[0]['videoURL']);
+        APICalls.theVideoList = jsonResponse.map((e) { return e['videoURL'];}).toList();
+        print("----------------------------------------------");
+        print(APICalls.theVideoList);
+        print("----------------------------------------------");
+        LandingPage.initialVideoURl =jsonResponse[0]['videoURL'];
+        // APICalls.refreshAction(NewsPage.playingVideo);
+        print("inside getVideos========================================================================");
         NewsPage.playingTitle = jsonResponse[0]['title'];
 
         getVids = jsonResponse;
@@ -147,7 +161,10 @@ class APICalls {
           });
       if (response.statusCode == 200) {
         List jsonResponse = json.decode(response.body)['videos'];
-        // print(jsonResponse);
+        APICalls.theVideoList = jsonResponse.map((e) { return e['videoURL'];}).toList();
+        print("-----------------inside SPORTS-----------------------------");
+        print(APICalls.theVideoList);
+        print("----------------------------------------------");
         return jsonResponse
             .map((data) => new Videos.fromJson(data))
             .toList();
@@ -169,8 +186,10 @@ class APICalls {
           });
       if (response.statusCode == 200) {
         List jsonResponse = json.decode(response.body)['videos'];
-        // print(jsonResponse);
-        // print("ndani ya mbiu ya KTN");
+        APICalls.theVideoList = jsonResponse.map((e) { return e['videoURL'];}).toList();
+        print("-----------------inside KTN LEO-----------------------------");
+        print(APICalls.theVideoList);
+        print("----------------------------------------------");
         return jsonResponse
             .map((data) => new Videos.fromJson(data))
             .toList();
@@ -191,8 +210,10 @@ class APICalls {
           });
       if (response.statusCode == 200) {
         List jsonResponse = json.decode(response.body)['videos'];
-        // print(jsonResponse);
-        // print("ndani ya mbiu ya KTN");
+        APICalls.theVideoList = jsonResponse.map((e) { return e['videoURL'];}).toList();
+        print("-----------------inside world news-----------------------------");
+        print(APICalls.theVideoList);
+        print("----------------------------------------------");
         return jsonResponse
             .map((data) => new Videos.fromJson(data))
             .toList();
@@ -213,8 +234,10 @@ class APICalls {
           });
       if (response.statusCode == 200) {
         List jsonResponse = json.decode(response.body)['videos'];
-        // print(jsonResponse);
-        // print("ndani ya mbiu ya KTN");
+        APICalls.theVideoList = jsonResponse.map((e) { return e['videoURL'];}).toList();
+        print("-----------------inside KTN BUSINESS-----------------------------");
+        print(APICalls.theVideoList);
+        print("----------------------------------------------");
         return jsonResponse
             .map((data) => new Videos.fromJson(data))
             .toList();
@@ -235,8 +258,10 @@ class APICalls {
           });
       if (response.statusCode == 200) {
         List jsonResponse = json.decode(response.body)['videos'];
-        // print(jsonResponse);
-        // print("ndani ya mbiu ya KTN");
+        APICalls.theVideoList = jsonResponse.map((e) { return e['videoURL'];}).toList();
+        print("-----------------inside MORNING EXPRESS-----------------------------");
+        print(APICalls.theVideoList);
+        print("----------------------------------------------");
         return jsonResponse
             .map((data) => new Videos.fromJson(data))
             .toList();
@@ -257,8 +282,10 @@ class APICalls {
           });
       if (response.statusCode == 200) {
         List jsonResponse = json.decode(response.body)['videos'];
-        // print(jsonResponse);
-        // print("ndani ya mbiu ya KTN");
+        APICalls.theVideoList = jsonResponse.map((e) { return e['videoURL'];}).toList();
+        print("-----------------inside MOST VIEWED-----------------------------");
+        print(APICalls.theVideoList);
+        print("----------------------------------------------");
         return jsonResponse
             .map((data) => new Videos.fromJson(data))
             .toList();
@@ -278,8 +305,34 @@ class APICalls {
           });
       if (response.statusCode == 200) {
         List jsonResponse = json.decode(response.body)['videos'];
-        // print(jsonResponse);
-        // print("ndani ya mbiu ya KTN");
+        APICalls.theVideoList = jsonResponse.map((e) { return e['videoURL'];}).toList();
+        print("-----------------inside world news-----------------------------");
+        print(APICalls.theVideoList);
+        print("----------------------------------------------");
+        return jsonResponse
+            .map((data) => new Videos.fromJson(data))
+            .toList();
+      } else {
+        throw Exception('Unexpected error occurred !');
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<List<Videos>> getLatestStories() async {
+    try {
+      final response = await http.get(Uri.parse(latest),
+          headers: <String, String>{
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+          });
+      if (response.statusCode == 200) {
+        List jsonResponse = json.decode(response.body)['videos'];
+        APICalls.theVideoList = jsonResponse.map((e) { return e['videoURL'];}).toList();
+        print("-----------------inside latest stories-----------------------------");
+        print(APICalls.theVideoList);
+        print("----------------------------------------------");
         return jsonResponse
             .map((data) => new Videos.fromJson(data))
             .toList();
@@ -302,10 +355,11 @@ class APICalls {
       if (res.statusCode == 200) {
         var jsonResponse = json.decode(res.body);
         print("this is inside the video ID function -------------------------------");
+        print(jsonResponse['items']);
         print(jsonResponse['items'][0]['id']['videoId']);
         print("this is inside the video ID function -------------------------------");
-        YoutubeVideo.theLiveStreamVideoId = jsonResponse['items'][0]['id']['videoId'];
-        print(YoutubeVideo.theLiveStreamVideoId);
+
+        APICalls.refreshAction(jsonResponse['items'][0]['id']['videoId']);
         print("above is what it is -------------------------------------------------");
         return  jsonResponse['items'][0]['id']['videoId'];
       } else {
@@ -320,11 +374,40 @@ class APICalls {
 
 
 
-
-
   static Future refreshLiveStream(context) async {
     // print("in refresh");
     return APICalls.getVideoId();
+  }
+
+  static refreshAction(theVideoId) async {
+
+    print(NewsPage.playingVideo);
+    print("inside refresh>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>the refresh Action");
+    print(theVideoId);
+    String videoURL =
+        "https://www.standardmedia.co.ke/farmkenya/api/ktn-home/video/$theVideoId";
+    try {
+      var result = await http.get(Uri.parse(videoURL));
+      if (result.statusCode == 200) {
+        Map<String, dynamic> data = jsonDecode(result.body)['video'];
+        Video video = Video.fromJson(data);
+        print("--------------RFA ------------");
+        print(data['videoURL']);
+        print("--------------RFA ------------");
+
+          print("inside RFA");
+          AllVideos.controller!.load("${data['videoURL']}");
+           YoutubeVideo.controller!.load("${data['videoURL']}");
+
+      } else {
+        print("problem in refresh Action");
+        throw Exception('Could not connect.');
+      }
+    } catch (e) {
+      print("not generated URL....problem");
+      throw e;
+    }
+
   }
 }
 

@@ -516,7 +516,7 @@ class _SportsPageState extends State<SportsPage>  with AutomaticKeepAliveClientM
                             SizedBox(
                               height: 2,
                             ),
-                            MoreVideosPage(theDetail: "/ktn-news/videos/23/0/20",),
+                            MoreVideosPage(theDetail: "/ktn-news/videos/23/0/20",theIndex: 3,),
                             Align(
                               alignment: Alignment.center,
                               child: Card(
